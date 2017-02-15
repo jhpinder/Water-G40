@@ -38,7 +38,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
+                    android:hint="Username"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -53,7 +53,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_password"
+                    android:hint="Password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -65,7 +65,7 @@
 
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+                style="@android:style/TextAppearance.Material.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -73,10 +73,13 @@
                 android:textStyle="bold" />
 
             <Button
-                android:text="Register"
+                android:id="@+id/register_button"
+                style="@android:style/TextAppearance.Material.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/register_button" />
+                android:layout_marginTop="16dp"
+                android:text="Register"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>
