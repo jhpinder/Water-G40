@@ -101,7 +101,7 @@ public class Profile implements Parcelable {
      * This constructor only for GUI use in edit/new Profile dialog
      */
     public Profile() {
-        this("enter new name" , "NA", "NA", Title.USER);
+        this("enter new name" , "NA", "NA", null);
     }
 
     /**

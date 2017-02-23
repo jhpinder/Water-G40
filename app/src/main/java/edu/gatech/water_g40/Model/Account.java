@@ -20,6 +20,7 @@ public class Account implements Parcelable{
     
     private String username;
     private String password;
+    private Profile profile;
 
 
     /* **********************
@@ -37,10 +38,21 @@ public class Account implements Parcelable{
      * @param password     the Account's password
      */
     public Account(String username, String password) {
+        this(username, password, new Profile());
+    }
+
+    /**
+     * Make a new Account (2-parameter default)
+     * @param username     the Account's username
+     * @param password     the Account's password
+     * @param profile      the Account's profile
+     */
+    public Account(String username, String password, Profile profile) {
         this.username = username;
         this.password = password;
+        this.profile = profile;
     }
-    
+
     /**
      * No param constructor -- DO NOT CALL NORMALLY
      * This constructor only for GUI use in edit/new Account dialog
