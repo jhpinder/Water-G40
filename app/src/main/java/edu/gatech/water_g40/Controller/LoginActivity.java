@@ -1,4 +1,4 @@
-package edu.gatech.water_g40;
+package edu.gatech.water_g40.Controller;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -22,7 +22,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +34,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.gatech.water_g40.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
