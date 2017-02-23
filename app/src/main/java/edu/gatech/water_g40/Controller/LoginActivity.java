@@ -33,8 +33,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
+import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -55,6 +57,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "user:pass", "user2:otherpass"
     };
+
+    /*
+     * A hash table to store and keep track of Accounts based on usernames
+     */
+    public static Hashtable<String, Account> accountHashtable
+            = new Hashtable<String, Account>();
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
