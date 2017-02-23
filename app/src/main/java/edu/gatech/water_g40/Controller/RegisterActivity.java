@@ -13,7 +13,7 @@ import edu.gatech.water_g40.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    /* ************************
+    /* *************************
         Widgets we will need for binding and getting information
      */
     private TextView idField;
