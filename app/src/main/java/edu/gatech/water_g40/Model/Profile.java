@@ -21,23 +21,20 @@ public class Profile implements Parcelable {
 
     // An enum to hold class standings, each with their own two character attribute
     public enum Title {
-        USER("US"),
-        WORKER("WO"),
-        MANAGER("MA"),
-        ADMINISTRATOR("AD");
+        USER("User"),
+        WORKER("Worker"),
+        MANAGER("Manager"),
+        ADMINISTRATOR("Administrator");
 
-        private String abbrev;
+        private String type;
 
-        private Title(String name) { this.abbrev = name; }
+        private Title(String name) { type = name; }
 
         public String toString() {
-            return abbrev;
+            return type;
         }
 
     }
-
-//    public static List<String> legalMajors = Arrays.asList("CS", "CM", "ISYE", "MATH", "EE", "CMPE", "NA");
-//    private static int Next_Id = 0;
 
     public static List<Title> legalTitles = Arrays.asList(Title.values());
     

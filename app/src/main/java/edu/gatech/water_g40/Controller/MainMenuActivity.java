@@ -24,6 +24,15 @@ public class MainMenuActivity extends AppCompatActivity {
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });
+
+        final Button editProfileButton = (Button) findViewById(R.id.edit_profile_button);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MainMenuActivity.this, EditProfileActivity.class);
+                MainMenuActivity.this.startActivity(myIntent);
+            }
+        });
     }
 
 }

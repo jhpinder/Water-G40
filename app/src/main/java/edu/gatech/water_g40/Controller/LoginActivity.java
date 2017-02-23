@@ -51,13 +51,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "user:pass", "user2:otherpass"
-    };
-
     /*
      * A hash table to store and keep track of Accounts based on usernames
      */
@@ -79,6 +72,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // This is a default account to be used for testing/debugging
+        accountHashtable.put("Test", new Account("Test", "test"));
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

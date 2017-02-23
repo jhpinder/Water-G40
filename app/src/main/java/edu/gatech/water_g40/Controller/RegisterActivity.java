@@ -29,6 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passEditField;
     private EditText passVerifEditField;
 
+    boolean cancelClicked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cancelClicked = true;
                 Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(myIntent);
             }
@@ -65,8 +68,6 @@ public class RegisterActivity extends AppCompatActivity {
                 attemptRegister();
             }
         });
-
-
     }
 
     /*
@@ -93,45 +94,49 @@ public class RegisterActivity extends AppCompatActivity {
         String passString = passEditField.getText().toString();
         String passConfirmString = passVerifEditField.getText().toString();
 
-        // Check for a valid password, if the user entered one.
-        if (passString.length() == 0 && !isPasswordValid(passString)) {
-            passEditField.setError("The password is invalid");
-            focusView = passEditField;
-            cancel = true;
-        } else if (passConfirmString.length() == 0 && !isPasswordValid(passConfirmString)) {
-            passVerifEditField.setError("Please retype your password");
-            focusView = passVerifEditField;
-            cancel = true;
-        } else if (!isPassMatch(passString, passConfirmString)) {
-            passVerifEditField.setError("The passwords do not match");
-            focusView = passVerifEditField;
-            cancel = true;
-        }
+        if (cancelClicked) {
+            // Check for a valid password, if the user entered one.
+            if (passString.length() == 0 && !isPasswordValid(passString)) {
+                passEditField.setError("The password is invalid");
+                focusView = passEditField;
+                cancel = true;
+            } else if (passConfirmString.length() == 0 && !isPasswordValid(passConfirmString)) {
+                passVerifEditField.setError("Please retype your password");
+                focusView = passVerifEditField;
+                cancel = true;
+            } else if (!isPassMatch(passString, passConfirmString)) {
+                passVerifEditField.setError("The passwords do not match");
+                focusView = passVerifEditField;
+                cancel = true;
+            }
 
-        //verify the username
-        if (userString.length() == 0) {
-            userEditField.setError("This field is required");
-            focusView = userEditField;
-            cancel = true;
-        } else if (!isUsernameValid(userString)) {
-            userEditField.setError("The username is too short");
-            focusView = userEditField;
-            cancel = true;
-        }
+            //verify the username
+            if (userString.length() == 0) {
+                userEditField.setError("This field is required");
+                focusView = userEditField;
+                cancel = true;
+            } else if (!isUsernameValid(userString)) {
+                userEditField.setError("The username is too short");
+                focusView = userEditField;
+                cancel = true;
+            }
 
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
+            if (cancel) {
+                // There was an error; don't attempt login and focus the first
+                // form field with an error.
+                focusView.requestFocus();
+            } else {
+                // The account will be registered and added to the list of valid accounts
+                accountHashtable.put(userString, new Account(userString, passString));
+                // The user will now be returned to the login screen so they can login with their new account
+                Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                RegisterActivity.this.startActivity(myIntent);
+            }
         } else {
-            // The account will be registered and added to the list of valid accounts
-            accountHashtable.put(userString, new Account(userString, passString));
-            // The user will now be returned to the login screen so they can login with their new account
             Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(myIntent);
         }
-
     }
 
     /*

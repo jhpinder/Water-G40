@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="edu.gatech.water_g40.Controller.EditProfileActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="20dp"
+        android:id="@+id/name_text"
+        android:hint="Name"
+        android:layout_below="@+id/profile_title_text"
+        android:layout_alignParentStart="true"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_below="@+id/name_text"
+        android:layout_alignParentStart="true"
+        android:id="@+id/email_text"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:hint="Email Address" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:layout_below="@+id/email_text"
+        android:layout_alignParentStart="true"
+        android:id="@+id/home_text"
+        android:hint="Home Address"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
+
+    <TextView
+        android:text="Profile Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/profile_title_text"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_text"
+        android:layout_alignParentStart="true"
+        android:id="@+id/title_spinner" />
+</RelativeLayout>
