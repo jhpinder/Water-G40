@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * A hash table to store and keep track of Accounts based on usernames
      */
     public static Hashtable<String, Account> accountHashtable
-            = new Hashtable<String, Account>();
+            = new Hashtable<>(10);
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -366,30 +366,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (InterruptedException e) {
                 return false;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             return true;
         }
 
-        // TODO: Insert Proper JavaDocs
+//        // This method checks if the username and password combo is valid
+//        public Boolean checkValidCombo(String user, String pass) {
+//            boolean valid = false;
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(user)) {
+//                    // Account exists, return true if the password matches.
+//                    if (pieces[1].equals(pass)) {
+//                        valid = true;
+//                    }
+//                }
+//            }
+//            return valid;
+//        }
+
         // This method checks if the username and password combo is valid
         public Boolean checkValidCombo(String user, String pass) {
             boolean valid = false;
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(user)) {
-                    // Account exists, return true if the password matches.
-                    if (pieces[1].equals(pass)) {
-                        valid = true;
-                    }
-                }
+            Account current = accountHashtable.get(user);
+            if (current == null) {
+                return  false;
+            } else if (current.getUsername().equals(user) && current.getPassword().equals(pass)) {
+                return true;
             }
             return valid;
         }

@@ -12,7 +12,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.R;
+
+import static edu.gatech.water_g40.Controller.LoginActivity.accountHashtable;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -122,7 +125,9 @@ public class RegisterActivity extends AppCompatActivity {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // The account will be registered and the user can log in
+            // The account will be registered and added to the list of valid accounts
+            accountHashtable.put(userString, new Account(userString, passString));
+            // The user will now be returned to the login screen so they can login with their new account
             Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(myIntent);
         }
