@@ -6,22 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainMenuActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
-        Intent intent = getIntent();
+        setContentView(R.layout.activity_register);
 
-        final Button backButton = (Button) findViewById(R.id.back_button);
+        final Button backButton = (Button) findViewById(R.id.cancel_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(MainMenuActivity.this, LoginActivity.class);
-                MainMenuActivity.this.startActivity(myIntent);
+                Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                RegisterActivity.this.startActivity(myIntent);
             }
         });
     }
-
 }
