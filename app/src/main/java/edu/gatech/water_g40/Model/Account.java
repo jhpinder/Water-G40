@@ -32,6 +32,9 @@ public class Account implements Parcelable{
     public String getPassword() {return password; }
     public void setPassword(String password) { this.password = password; }
 
+    public void setProfile(Profile profile) { this.profile = profile; }
+    public Profile getProfile() { return profile; }
+
     /**
      * Make a new Account (2-parameter default)
      * @param username      the Account's username
@@ -42,7 +45,7 @@ public class Account implements Parcelable{
     }
 
     /**
-     * Make a new Account (2-parameter default)
+     * Make a new Account (3-parameter)
      * @param username     the Account's username
      * @param password     the Account's password
      * @param profile      the Account's profile

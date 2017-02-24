@@ -54,10 +54,27 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:text="Cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/cancel_button_profile" />
+
+    <Button
+        android:text="Save Changes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/save_profile_changes_button" />
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/title_spinner"
         android:layout_below="@+id/home_text"
         android:layout_alignParentStart="true"
-        android:id="@+id/title_spinner" />
+        android:layout_marginTop="22dp" />
 </RelativeLayout>

@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -39,12 +40,13 @@ import java.util.List;
 import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.R;
 
+import static android.Manifest.permission.PACKAGE_USAGE_STATS;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, Serializable {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -211,7 +213,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             if (mAuthTask.checkValidCombo(mAuthTask.getmEmail(), mAuthTask.getmPassword())){
+                Account currentAccount = accountHashtable.get(mAuthTask.getmEmail());
                 Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                myIntent.putExtra("account_logged_in", currentAccount);
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
@@ -233,10 +237,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    // NOTE that password and email validity have to be the same across Activities
     private boolean isEmailValid(String email) {
         return email.length() > 2;
     }
-
     private boolean isPasswordValid(String password) {
         return password.length() > 2;
     }
@@ -363,34 +367,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (InterruptedException e) {
                 return false;
             }
+
             return true;
         }
 
-//        // This method checks if the username and password combo is valid
-//        public Boolean checkValidCombo(String user, String pass) {
-//            boolean valid = false;
-//            for (String credential : DUMMY_CREDENTIALS) {
-//                String[] pieces = credential.split(":");
-//                if (pieces[0].equals(user)) {
-//                    // Account exists, return true if the password matches.
-//                    if (pieces[1].equals(pass)) {
-//                        valid = true;
-//                    }
-//                }
-//            }
-//            return valid;
-//        }
-
         // This method checks if the username and password combo is valid
         public Boolean checkValidCombo(String user, String pass) {
-            boolean valid = false;
             Account current = accountHashtable.get(user);
             if (current == null) {
-                return  false;
+                return false;
             } else if (current.getUsername().equals(user) && current.getPassword().equals(pass)) {
                 return true;
             }
-            return valid;
+            return false;
         }
 
         @Override

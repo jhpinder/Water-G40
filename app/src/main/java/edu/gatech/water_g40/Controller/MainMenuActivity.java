@@ -6,15 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.R;
 
 public class MainMenuActivity extends AppCompatActivity {
+
+    private Account current;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
+        current = (Account) intent.getSerializableExtra("account_logged_in");
 
         final Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +34,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(MainMenuActivity.this, EditProfileActivity.class);
+                myIntent.putExtra("account_logged_in", current);
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });

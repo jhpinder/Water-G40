@@ -19,11 +19,6 @@ import static edu.gatech.water_g40.Controller.LoginActivity.accountHashtable;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private LoginActivity.UserLoginTask mAuthTask = null;
-
     // UI references.
     private EditText userEditField;
     private EditText passEditField;
@@ -77,10 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
      *
      */
     private void attemptRegister() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         userEditField.setError(null);
         passEditField.setError(null);
@@ -94,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         String passString = passEditField.getText().toString();
         String passConfirmString = passVerifEditField.getText().toString();
 
-        if (cancelClicked) {
+        if (!cancelClicked) {
             // Check for a valid password, if the user entered one.
             if (passString.length() == 0 && !isPasswordValid(passString)) {
                 passEditField.setError("The password is invalid");
@@ -121,7 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
                 cancel = true;
             }
 
-
             if (cancel) {
                 // There was an error; don't attempt login and focus the first
                 // form field with an error.
@@ -139,21 +129,20 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+
     /*
     * Checks if the username is valid
     *
     * @param username   the username entered into the text field
      */
-    // TODO add actual vaidity requirements
+    // NOTE that password and email validity have to be the same across Activities
     private boolean isUsernameValid(String username) { return username.length() > 2; }
-
-
     /*
     * Checks if the password is valid
     *
     * @param password   the username entered into the text field
      */
-    // TODO add actual vaidity requirements
+    // NOTE that password and email validity have to be the same across Activities
     private boolean isPasswordValid(String password) { return password.length() > 2; }
 
     /*
