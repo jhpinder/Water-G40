@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         final Button enterButton = (Button) findViewById(R.id.start_registration);
-        backButton.setOnClickListener(new View.OnClickListener() {
+        enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptRegister();
@@ -77,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
         passEditField.setError(null);
         passVerifEditField.setError(null);
 
-        boolean cancel = false;
+        boolean error = false;
         View focusView = null;
 
         // Store the data the user entered
@@ -86,44 +87,49 @@ public class RegisterActivity extends AppCompatActivity {
         String passConfirmString = passVerifEditField.getText().toString();
 
         if (!cancelClicked) {
-            // Check for a valid password, if the user entered one.
+            //Check for a valid password,if the user entered one.
             if (passString.length() == 0 && !isPasswordValid(passString)) {
                 passEditField.setError("The password is invalid");
                 focusView = passEditField;
-                cancel = true;
+                error = true;
             } else if (passConfirmString.length() == 0 && !isPasswordValid(passConfirmString)) {
                 passVerifEditField.setError("Please retype your password");
                 focusView = passVerifEditField;
-                cancel = true;
+                error = true;
             } else if (!isPassMatch(passString, passConfirmString)) {
                 passVerifEditField.setError("The passwords do not match");
                 focusView = passVerifEditField;
-                cancel = true;
+                error = true;
             }
 
             //verify the username
             if (userString.length() == 0) {
                 userEditField.setError("This field is required");
                 focusView = userEditField;
-                cancel = true;
+                error = true;
             } else if (!isUsernameValid(userString)) {
                 userEditField.setError("The username is too short");
                 focusView = userEditField;
-                cancel = true;
+                error = true;
             }
+        }
 
-            if (cancel) {
-                // There was an error; don't attempt login and focus the first
-                // form field with an error.
+        if (!cancelClicked) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            if (error) {
                 focusView.requestFocus();
             } else {
                 // The account will be registered and added to the list of valid accounts
                 accountHashtable.put(userString, new Account(userString, passString));
+                Log.i("Output", "SUCCESS: Account added");
                 // The user will now be returned to the login screen so they can login with their new account
                 Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(myIntent);
             }
         } else {
+            // The account is not added to the list and the user returns to the login screen
+            Log.i("Output", "CANCEL: Account NOT added");
             Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(myIntent);
         }
