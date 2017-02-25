@@ -26,12 +26,12 @@ public class Profile implements Parcelable {
         MANAGER("Manager"),
         ADMINISTRATOR("Administrator");
 
-        private String type;
+        private String name;
 
-        private Title(String name) { type = name; }
+        private Title(String name) { this.name = name; }
 
         public String toString() {
-            return type;
+            return name;
         }
 
     }
@@ -94,7 +94,7 @@ public class Profile implements Parcelable {
     }
 
     /**
-     * No param constructor -- DO NOT CALL NORMALLY
+     * No param constructor
      * This constructor only for GUI use in edit/new Profile dialog
      */
     public Profile() {

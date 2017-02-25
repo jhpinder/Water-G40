@@ -18,6 +18,12 @@ import edu.gatech.water_g40.R;
 
 import static edu.gatech.water_g40.Controller.LoginActivity.accountHashtable;
 
+/**
+ * Created by Vikram Kumar (Archlefirth) on 2/22/2017.
+ *
+ * Allows a user to register and create a new account
+ *
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     // UI references.
@@ -122,14 +128,12 @@ public class RegisterActivity extends AppCompatActivity {
             } else {
                 // The account will be registered and added to the list of valid accounts
                 accountHashtable.put(userString, new Account(userString, passString));
-                Log.i("Output", "SUCCESS: Account added");
                 // The user will now be returned to the login screen so they can login with their new account
                 Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(myIntent);
             }
         } else {
             // The account is not added to the list and the user returns to the login screen
-            Log.i("Output", "CANCEL: Account NOT added");
             Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
             RegisterActivity.this.startActivity(myIntent);
         }

@@ -15,6 +15,14 @@ import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.Model.Profile;
 import edu.gatech.water_g40.R;
 
+/**
+ * Created by Vikram Kumar (Archlefirth) on 2/22/2017.
+ *
+ * This class represents the profile editing screen.
+ * Here a user can enter/change their name, home address, email address and user type
+ *
+ */
+
 public class EditProfileActivity extends AppCompatActivity {
 
     /* ************************
@@ -47,9 +55,14 @@ public class EditProfileActivity extends AppCompatActivity {
         titleSpinner = (Spinner) findViewById(R.id.title_spinner);
 
         /*
+         * Create a dummy profile to grab the 'legalTitles' enum array
+         */
+        Profile dummy = new Profile("enter new name" , "test@test.com", "NA");
+
+        /*
           Set up the adapter to display the allowable majors in the spinner
          */
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Profile.legalTitles);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, dummy.legalTitles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         titleSpinner.setAdapter(adapter);
 
@@ -81,42 +94,62 @@ public class EditProfileActivity extends AppCompatActivity {
         emailField.setError(null);
         homeField.setError(null);
 
-        boolean cancel = false;
+        boolean error = false;
         View focusView = null;
 
         // Store the data the user entered
         String nameString = nameField.getText().toString();
         String emailString = emailField.getText().toString();
         String homeString = homeField.getText().toString();
+        Profile.Title userType = (Profile.Title) titleSpinner.getSelectedItem();
 
 
-
-
-        if (cancelClicked == false) {
-            if (nameString == null) {
+        if (!cancelClicked) {
+            if (nameString.length() == 0) {
                 nameField.setError("Please enter a name");
                 focusView = nameField;
-                cancel = true;
+                error = true;
+            } else if (!validName(nameString)) {
+                nameField.setError("Please enter a valid name");
+                focusView = nameField;
+                error = true;
+            }
+
+            if (homeString.length() == 0) {
+                homeField.setError("Please enter a home address");
+                focusView = homeField;
+                error = true;
+            } else if (!validAddress(homeString)) {
+                homeField.setError("Please enter a valid address");
+                focusView = nameField;
+                error = true;
+            }
+
+            if (emailString.length() == 0) {
+                emailField.setError("Please enter an email");
+                focusView = emailField;
+                error = true;
             }
             if (!validEmail(emailString)) {
                 emailField.setError("Please enter a valid email");
                 focusView = emailField;
-                cancel = true;
+                error = true;
             }
-            if (homeString == null) {
-                homeField.setError("Please enter a valid address");
-                focusView = homeField;
-                cancel = true;
-            }
+        }
 
-            if (cancel == false) {
-                // The user has never entered their profile data before
+        if (!cancelClicked) {
+            if (error) {
+                // There was an error; don't attempt login and focus the first
+                // form field with an error.
+                focusView.requestFocus();
+            } else {
                 if (editAccount.getProfile() == null) {
+                    // The user has never entered any profile info
                     editAccount.setProfile(new Profile(
                             nameString,
                             emailString,
                             homeString,
-                            (Profile.Title) titleSpinner.getSelectedItem()
+                            userType
                     ));
                 } else {
                     // The user is updating their current profile information
@@ -124,21 +157,37 @@ public class EditProfileActivity extends AppCompatActivity {
                     currentProfile.setName(nameString);
                     currentProfile.setEmailAddress(emailString);
                     currentProfile.setHomeAddress(homeString);
-                    currentProfile.setTitle((Profile.Title) titleSpinner.getSelectedItem());
+                    currentProfile.setTitle(userType);
                     editAccount.setProfile(currentProfile);
                 }
-                Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
-                EditProfileActivity.this.startActivity(myIntent);
-            } else {
-                // There was an error; don't attempt login and focus the first
-                // form field with an error.
-                focusView.requestFocus();
             }
         } else {
+            /*
+            * The user clicked the cancel button during editing
+            * so return to the main menu
+            */
             Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
             EditProfileActivity.this.startActivity(myIntent);
         }
     }
+
+    /*
+     * checks if a name is in the valid format
+     *
+     * @param email  the email address to verify
+     */
+    //TODO: Implement actual validation criteria
+    private boolean validName(String name) {
+        return (name.length() > 0);
+    }
+
+    /*
+     * checks if a home address is in the valid format
+     *
+     * @param email  the email address to verify
+     */
+    //TODO: Implement actual validation criteria
+    private boolean validAddress(String home) { return home.length() > 0; }
 
     /*
      * checks if an email is in the valid format

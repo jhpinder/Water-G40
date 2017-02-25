@@ -9,6 +9,12 @@ import android.widget.Button;
 import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.R;
 
+/**
+ * Created by Vikram Kumar (Archlefirth) on 2/22/2017.
+ *
+ * The class that represents the main menu of the application
+ *
+ */
 public class MainMenuActivity extends AppCompatActivity {
 
     private Account current;
