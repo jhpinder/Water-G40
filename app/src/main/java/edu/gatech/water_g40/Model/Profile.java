@@ -3,6 +3,7 @@ package edu.gatech.water_g40.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class Profile implements Parcelable {
 
     public Title getTitle() {return title; }
     public void setTitle(Title standing) { title = standing; }
+
 
 //    public static int findPosition(String code) {
 //        int i = 0;

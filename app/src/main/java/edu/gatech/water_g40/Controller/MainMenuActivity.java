@@ -24,7 +24,7 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
-        current = (Account) intent.getSerializableExtra("account_logged_in");
+        current = (Account) intent.getParcelableExtra("account_logged_in");
 
         final Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {

@@ -44,7 +44,7 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         Intent intent = getIntent();
-        editAccount = (Account) intent.getSerializableExtra("account_logged_in");
+        editAccount = (Account) intent.getParcelableExtra("account_logged_in");
 
         /**
          * Grab the dialog widgets so we can get info for later
@@ -161,14 +161,15 @@ public class EditProfileActivity extends AppCompatActivity {
                     editAccount.setProfile(currentProfile);
                 }
             }
-        } else {
-            /*
-            * The user clicked the cancel button during editing
-            * so return to the main menu
-            */
-            Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
-            EditProfileActivity.this.startActivity(myIntent);
         }
+        /*
+        * The user clicked the cancel button during editing
+        * so return to the main menu
+        */
+        Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
+        myIntent.putExtra("account_logged_in", editAccount);
+        EditProfileActivity.this.startActivity(myIntent);
+
     }
 
     /*
