@@ -62,7 +62,7 @@ public class EditProfileActivity extends AppCompatActivity {
         /*
           Set up the adapter to display the allowable majors in the spinner
          */
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, dummy.legalTitles);
+        ArrayAdapter<Profile.Title> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, dummy.legalTitles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         titleSpinner.setAdapter(adapter);
 
