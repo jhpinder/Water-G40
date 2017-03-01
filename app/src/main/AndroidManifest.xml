@@ -24,7 +24,8 @@
         </activity>
         <activity android:name=".Controller.MainMenuActivity" />
         <activity android:name=".Controller.RegisterActivity" />
-        <activity android:name=".Controller.EditProfileActivity"></activity>
+        <activity android:name=".Controller.EditProfileActivity" />
+        <activity android:name=".Controller.AddSourceActivity"></activity>
     </application>
 
 </manifest>
