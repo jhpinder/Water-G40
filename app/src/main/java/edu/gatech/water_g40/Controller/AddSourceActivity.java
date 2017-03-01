@@ -68,7 +68,11 @@ public class AddSourceActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptSave();
+                if (attemptSave()) {
+                    System.out.println("Saved");
+                } else {
+                    System.out.println("Did not save");
+                }
                 Intent myIntent = new Intent(AddSourceActivity.this, MainMenuActivity.class);
                 AddSourceActivity.this.startActivity(myIntent);
                 myIntent.putExtra("account_logged_in", current);
@@ -89,7 +93,7 @@ public class AddSourceActivity extends AppCompatActivity {
             reports.add(report);
             objectInputStream.close();
 
-            FileOutputStream fileOutputStream = new FileOutputStream("sources");
+            FileOutputStream fileOutputStream = new FileOutputStream("mySources");
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(reports);
             objectOutputStream.close();
@@ -98,19 +102,23 @@ public class AddSourceActivity extends AppCompatActivity {
             reports = new ArrayList<Report>();
             reports.add(report);
             try {
-                FileOutputStream fileOutputStream = new FileOutputStream("data");
+                FileOutputStream fileOutputStream = new FileOutputStream("mySources");
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(reports);
                 objectOutputStream.close();
             } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
                 return false;
             } catch (IOException ex) {
+                ex.printStackTrace();
                 return false;
             }
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
             return false;
         }
 

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +26,7 @@ import edu.gatech.water_g40.R;
  */
 public class MainMenuActivity extends AppCompatActivity {
 
+    private ListView listView;
     private Account current;
 
     public List<Report> reports;
@@ -36,13 +39,18 @@ public class MainMenuActivity extends AppCompatActivity {
         current = (Account) intent.getParcelableExtra("account_logged_in");
 
         try {
-            FileInputStream sourcesFIS = new FileInputStream("sources");
+            FileInputStream sourcesFIS = new FileInputStream("mySources");
             ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
             reports = (List<Report>) sourcesOIS.readObject();
         } catch (Exception e) {
             reports = new ArrayList<Report>();
         }
 
+
+        listView = (ListView) findViewById(R.id.main_menu_listview);
+        ArrayAdapter<Report> listViewAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, reports);
+        listView.setAdapter(listViewAdapter);
 
         final Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
