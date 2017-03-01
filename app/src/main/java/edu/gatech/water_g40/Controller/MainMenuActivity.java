@@ -46,7 +46,14 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         final Button submitReportButton = (Button) findViewById(R.id.submit_report_button);
-        submitReportButton.setOnClickListener((view))
+        submitReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent4380 = new Intent(MainMenuActivity.this, EditProfileActivity.class);
+                myIntent4380.putExtra("account_logged_in", current);
+                MainMenuActivity.this.startActivity(myIntent4380);
+            }
+        });
     }
 
 }
