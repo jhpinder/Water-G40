@@ -44,6 +44,9 @@ public class MainMenuActivity extends AppCompatActivity {
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });
+
+        final Button submitReportButton = (Button) findViewById(R.id.submit_report_button);
+        submitReportButton.setOnClickListener((view))
     }
 
 }
