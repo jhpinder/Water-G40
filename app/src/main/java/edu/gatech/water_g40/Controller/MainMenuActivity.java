@@ -49,7 +49,7 @@ public class MainMenuActivity extends AppCompatActivity {
         submitReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent4380 = new Intent(MainMenuActivity.this, EditProfileActivity.class);
+                Intent myIntent4380 = new Intent(MainMenuActivity.this, AddSourceActivity.class);
                 myIntent4380.putExtra("account_logged_in", current);
                 MainMenuActivity.this.startActivity(myIntent4380);
             }

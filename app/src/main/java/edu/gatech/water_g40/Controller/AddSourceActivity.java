@@ -20,7 +20,7 @@ public class AddSourceActivity extends AppCompatActivity {
         current = (Account) intent.getParcelableExtra("account_logged_in");
 
 
-        final Button cancelButton = (Button) findViewById(R.id.cancel_button);
+        final Button cancelButton = (Button) findViewById(R.id.add_source_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -29,6 +29,18 @@ public class AddSourceActivity extends AppCompatActivity {
                 myIntent.putExtra("account_logged_in", current);
             }
         });
+
+        final Button addButton = (Button) findViewById(R.id.add_source_add);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(AddSourceActivity.this, MainMenuActivity.class);
+                AddSourceActivity.this.startActivity(myIntent);
+                myIntent.putExtra("account_logged_in", current);
+            }
+        });
+
+
     }
 
 
