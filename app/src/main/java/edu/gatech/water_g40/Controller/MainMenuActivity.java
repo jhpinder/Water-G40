@@ -6,7 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.gatech.water_g40.Model.Account;
+import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
 /**
@@ -19,12 +26,23 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private Account current;
 
+    public List<Report> reports;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
         current = (Account) intent.getParcelableExtra("account_logged_in");
+
+        try {
+            FileInputStream sourcesFIS = new FileInputStream("sources");
+            ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
+            reports = (List<Report>) sourcesOIS.readObject();
+        } catch (Exception e) {
+            reports = new ArrayList<Report>();
+        }
+
 
         final Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {

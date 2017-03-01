@@ -4,20 +4,24 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by jhpinder on 2/28/17.
  */
 
 public class Report implements Parcelable {
-    private int date;
-    private int time;
+    private Date date;
     private String username;
     private double lat;
     private double lon;
     private WaterType waterType;
     private Condition condition;
+    private static int reportNum = 0;
 
-    private enum WaterType {
+    public enum WaterType {
         BOTTLED("Bottled"),
         WELL("Well"),
         STREAM("Stream"),
@@ -31,6 +35,7 @@ public class Report implements Parcelable {
             return name;
         }
         }
+    public static List<WaterType> legalTypes = Arrays.asList(WaterType.values());
 
     private enum Condition {
         WASTE("Waste"),
@@ -49,19 +54,20 @@ public class Report implements Parcelable {
         }
     }
 
+    public static List<Condition> legalConditions = Arrays.asList(Condition.values());
 
     public Report() {
-        this(0, 0, "User", 0, 0, WaterType.BOTTLED, Condition.POTABLE);
+        this(new Date(), "User", 0, 0, WaterType.BOTTLED, Condition.POTABLE);
     }
-    public Report(int date, int time, String username, double lat, double lon, WaterType waterType,
+    public Report(Date date, String username, double lat, double lon, WaterType waterType,
                   Condition condition) {
         this.date = date;
-        this.time = time;
         this.username = username;
         this.lat = lat;
         this.lon = lon;
         this.waterType = waterType;
         this.condition = condition;
+        reportNum += reportNum;
     }
 
     public String toString() {
@@ -74,17 +80,11 @@ public class Report implements Parcelable {
     public void setUsername(String username) {
         this.username = username;
     }
-    public int getTime() {
-        return time;
-    }
-    public int getDate() {
+    public Date getDate() {
         return date;
     }
-    public void setDate(int date) {
+    public void setDate(Date date) {
         this.date = date;
-    }
-    public void setTime(int time) {
-        this.time = time;
     }
     public WaterType getWaterType() {
         return waterType;
@@ -110,14 +110,16 @@ public class Report implements Parcelable {
     public void setLon(double lon) {
         this.lon = lon;
     }
+    public int getReportNum() {
+        return reportNum;
+    }
 
 
 
 
 
     private Report(Parcel in) {
-        date = in.readInt();
-        time = in.readInt();
+        date = (Date) in.readSerializable();
         username = in.readString();
         lat = in.readDouble();
         lon = in.readDouble();
@@ -132,8 +134,7 @@ public class Report implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(date);
-        dest.writeInt(time);
+        dest.writeSerializable(date);
         dest.writeString(username);
         dest.writeDouble(lat);
         dest.writeDouble(lon);
