@@ -4,6 +4,7 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by jhpinder on 2/28/17.
  */
 
-public class Report implements Parcelable {
+public class Report implements Parcelable, Serializable {
     private Date date;
     private String username;
     private double lat;
@@ -37,7 +38,7 @@ public class Report implements Parcelable {
         }
     public static List<WaterType> legalTypes = Arrays.asList(WaterType.values());
 
-    private enum Condition {
+    public enum Condition {
         WASTE("Waste"),
         TREATCLEAR("Treatable-Clear"),
         TREATMUD("Treatable-Muddy"),
@@ -58,6 +59,9 @@ public class Report implements Parcelable {
 
     public Report() {
         this(new Date(), "User", 0, 0, WaterType.BOTTLED, Condition.POTABLE);
+    }
+    public Report(String user, WaterType w, Condition c) {
+        this(new Date(), user, 0, 0, w, c);
     }
     public Report(Date date, String username, double lat, double lon, WaterType waterType,
                   Condition condition) {

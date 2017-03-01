@@ -44,4 +44,12 @@
         android:layout_above="@+id/back_button"
         android:id="@+id/main_menu_listview" />
 
+    <Button
+        android:text="Delete All"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/main_menu_listview"
+        android:layout_alignParentStart="true"
+        android:id="@+id/delete_all" />
+
 </RelativeLayout>

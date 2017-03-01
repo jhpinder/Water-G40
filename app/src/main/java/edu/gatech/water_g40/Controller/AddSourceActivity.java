@@ -1,5 +1,6 @@
 package edu.gatech.water_g40.Controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.DateFormat;
@@ -84,28 +86,36 @@ public class AddSourceActivity extends AppCompatActivity {
         DateFormat dateFormat = new SimpleDateFormat("MMddyyyyHHmmss");
         Date date = new Date();
 
+        //Report report = new Report("Test",
+        //        (Report.WaterType) typeSpinner.getSelectedItem(),
+        //        (Report.Condition) conditionSpinner.getSelectedItem());
         Report report = new Report();
-        List<Report> reports;
+        List<Report> reports = new ArrayList<Report>();
         try {
-            FileInputStream fis = new FileInputStream("sources");
+            FileInputStream fis = openFileInput("mySources");
             ObjectInputStream objectInputStream = new ObjectInputStream(fis);
             reports = (List<Report>) objectInputStream.readObject();
             reports.add(report);
             objectInputStream.close();
+            System.out.print("Opened with size of ");
+            System.out.println(reports.size());
 
-            FileOutputStream fileOutputStream = new FileOutputStream("mySources");
+            FileOutputStream fileOutputStream = openFileOutput("mySources", Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(reports);
             objectOutputStream.close();
             return true;
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             reports = new ArrayList<Report>();
             reports.add(report);
             try {
-                FileOutputStream fileOutputStream = new FileOutputStream("mySources");
+                FileOutputStream fileOutputStream = openFileOutput("mySources",
+                        Context.MODE_PRIVATE);
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
                 objectOutputStream.writeObject(reports);
                 objectOutputStream.close();
+                return true;
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
                 return false;
@@ -113,10 +123,18 @@ public class AddSourceActivity extends AppCompatActivity {
                 ex.printStackTrace();
                 return false;
             }
-            return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            try {
+                FileOutputStream fileOutputStream = openFileOutput("mySources",
+                        Context.MODE_PRIVATE);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                objectOutputStream.writeObject(reports);
+                objectOutputStream.close();
+                return true;
+            } catch (Exception ex) {
+                e.printStackTrace();
+                return false;
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return false;

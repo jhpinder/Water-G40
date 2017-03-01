@@ -1,5 +1,6 @@
 package edu.gatech.water_g40.Controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,9 @@ import android.widget.ListView;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class MainMenuActivity extends AppCompatActivity {
     private ListView listView;
     private Account current;
 
-    public List<Report> reports;
+    public List<Report> reports = new ArrayList<Report>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +40,24 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
         current = (Account) intent.getParcelableExtra("account_logged_in");
-
+//        try {
+//            FileOutputStream fileOutputStream = openFileOutput("mySources",
+//                    Context.MODE_PRIVATE);
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//            objectOutputStream.writeObject(reports);
+//            objectOutputStream.close();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
         try {
-            FileInputStream sourcesFIS = new FileInputStream("mySources");
+            FileInputStream sourcesFIS = openFileInput("mySources");
             ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
             reports = (List<Report>) sourcesOIS.readObject();
         } catch (Exception e) {
             reports = new ArrayList<Report>();
+            e.printStackTrace();
         }
-
+        //reports.add(new Report());
 
         listView = (ListView) findViewById(R.id.main_menu_listview);
         ArrayAdapter<Report> listViewAdapter = new ArrayAdapter(this,
