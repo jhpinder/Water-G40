@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
@@ -16,14 +17,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="422dp">
+        android:layout_height="378dp">
+
+        <EditText
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/lat_text"
+            tools:text="Enter lattitude"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/add_source_cancel"
+            android:layout_marginStart="13dp" />
 
         <Button
             android:text="Cancel"
             android:layout_width="133dp"
             android:layout_height="wrap_content"
             android:id="@+id/add_source_cancel"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/lon_text"
             android:layout_alignParentStart="true" />
 
         <Button
@@ -31,8 +43,41 @@
             android:layout_width="133dp"
             android:layout_height="wrap_content"
             android:id="@+id/add_source_add"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/lon_text"
             android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/lon_text"
+            android:layout_below="@+id/lat_text"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/lat_text"
+            tools:text="Enter longitude" />
+
+        <TextView
+            android:text="Enter latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/textView2"
+            android:layout_above="@+id/lon_text"
+            android:layout_alignEnd="@+id/add_source_cancel"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="18sp" />
+
+        <TextView
+            android:text="Enter longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
 </LinearLayout>

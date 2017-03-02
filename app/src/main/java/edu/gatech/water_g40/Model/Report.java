@@ -1,6 +1,5 @@
 package edu.gatech.water_g40.Model;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -31,7 +30,7 @@ public class Report implements Parcelable, Serializable {
         OTHER("Other");
 
         private String name;
-        private WaterType(String name) { this.name = name; }
+        WaterType(String name) { this.name = name; }
         public String toString() {
             return name;
         }
@@ -46,7 +45,7 @@ public class Report implements Parcelable, Serializable {
 
         private String name;
 
-        private Condition(String name) {
+        Condition(String name) {
             this.name = name;
         }
 

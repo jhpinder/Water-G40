@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.io.File;
@@ -40,6 +41,9 @@ public class AddSourceActivity extends AppCompatActivity {
 
     private Spinner typeSpinner;
     private Spinner conditionSpinner;
+    private EditText editLat;
+    private EditText editLon;
+
     private double lat = 0;
     private double lon = 0;
 
@@ -58,6 +62,8 @@ public class AddSourceActivity extends AppCompatActivity {
 
         typeSpinner = (Spinner) findViewById(R.id.type_spinner);
         conditionSpinner = (Spinner) findViewById(R.id.condition_spinner);
+        editLat = (EditText) findViewById(R.id.lat_text);
+        editLon = (EditText) findViewById(R.id.lon_text);
 
         ArrayAdapter<Report.WaterType> waterTypeArrayAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, Report.legalTypes);
@@ -85,6 +91,16 @@ public class AddSourceActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                editLat.setError(null);
+                editLon.setError(null);
+                if (!editLat.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+                    editLat.setError("Please enter a valid number");
+                    return;
+                }
+                if (!editLon.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+                    editLon.setError("Please enter a valid number");
+                    return;
+                }
                 if (attemptSave()) {
                     System.out.println("Saved");
                 } else {
@@ -104,7 +120,9 @@ public class AddSourceActivity extends AppCompatActivity {
             FileInputStream fis = openFileInput("mySources");
             ObjectInputStream objectInputStream = new ObjectInputStream(fis);
             reports = (List<Report>) objectInputStream.readObject();
-            Report report = new Report(new Date(), current.getUsername(), lat, lon,
+            Report report = new Report(new Date(), current.getUsername(),
+                    Double.parseDouble(editLat.getText().toString()),
+                    Double.parseDouble(editLon.getText().toString()),
                     (Report.WaterType) typeSpinner.getSelectedItem(),
                     (Report.Condition) conditionSpinner.getSelectedItem(), currentId + 1);
             reports.add(report);
