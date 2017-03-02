@@ -20,7 +20,7 @@ public class Report implements Parcelable, Serializable {
     private double lon;
     private WaterType waterType;
     private Condition condition;
-    private static int reportNum = 0;
+    private int reportNum;
 
     public enum WaterType {
         BOTTLED("Bottled"),
@@ -58,20 +58,20 @@ public class Report implements Parcelable, Serializable {
     public static List<Condition> legalConditions = Arrays.asList(Condition.values());
 
     public Report() {
-        this(new Date(), "User", 0, 0, WaterType.BOTTLED, Condition.POTABLE);
+        this(new Date(), "User", 0, 0, WaterType.BOTTLED, Condition.POTABLE, 0);
     }
-    public Report(String user, WaterType w, Condition c) {
-        this(new Date(), user, 0, 0, w, c);
+    public Report(String user, WaterType w, Condition c, int reportNum) {
+        this(new Date(), user, 0, 0, w, c, reportNum);
     }
     public Report(Date date, String username, double lat, double lon, WaterType waterType,
-                  Condition condition) {
+                  Condition condition, int reportNum) {
         this.date = date;
         this.username = username;
         this.lat = lat;
         this.lon = lon;
         this.waterType = waterType;
         this.condition = condition;
-        reportNum += reportNum;
+        this.reportNum = reportNum;
     }
 
     public String toString() {
@@ -86,6 +86,9 @@ public class Report implements Parcelable, Serializable {
     }
     public Date getDate() {
         return date;
+    }
+    public String getDateString() {
+        return date.toString();
     }
     public void setDate(Date date) {
         this.date = date;
@@ -127,8 +130,9 @@ public class Report implements Parcelable, Serializable {
         username = in.readString();
         lat = in.readDouble();
         lon = in.readDouble();
-        waterType = WaterType.valueOf(in.readString());
-        condition = Condition.valueOf(in.readString());
+        waterType = (WaterType) in.readSerializable();
+        condition = (Condition) in.readSerializable();
+        reportNum = in.readInt();
     }
 
     @Override
@@ -142,8 +146,9 @@ public class Report implements Parcelable, Serializable {
         dest.writeString(username);
         dest.writeDouble(lat);
         dest.writeDouble(lon);
-        dest.writeString(waterType.toString());
-        dest.writeString(condition.toString());
+        dest.writeSerializable(waterType);
+        dest.writeSerializable(condition);
+        dest.writeInt(reportNum);
     }
 
     public static final Parcelable.Creator<Report> CREATOR

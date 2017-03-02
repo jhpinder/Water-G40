@@ -1,7 +1,13 @@
 package edu.gatech.water_g40.Controller;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,9 +23,12 @@ import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.security.Provider;
+import java.security.acl.Permission;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,16 +40,21 @@ public class AddSourceActivity extends AppCompatActivity {
 
     private Spinner typeSpinner;
     private Spinner conditionSpinner;
+    private double lat = 0;
+    private double lon = 0;
 
     protected Account current;
 
+    private int currentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_source);
         Intent intent = getIntent();
-        current = (Account) intent.getParcelableExtra("account_logged_in");
+        current = intent.getParcelableExtra("account_logged_in");
+        currentId = intent.getIntExtra("last_id", 5);
+        System.out.println(currentId);
 
         typeSpinner = (Spinner) findViewById(R.id.type_spinner);
         conditionSpinner = (Spinner) findViewById(R.id.condition_spinner);
@@ -54,6 +68,7 @@ public class AddSourceActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, Report.legalConditions);
         conditionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         conditionSpinner.setAdapter(conditionAdapter);
+
 
 
         final Button cancelButton = (Button) findViewById(R.id.add_source_cancel);
@@ -76,29 +91,24 @@ public class AddSourceActivity extends AppCompatActivity {
                     System.out.println("Did not save");
                 }
                 Intent myIntent = new Intent(AddSourceActivity.this, MainMenuActivity.class);
-                AddSourceActivity.this.startActivity(myIntent);
                 myIntent.putExtra("account_logged_in", current);
+                AddSourceActivity.this.startActivity(myIntent);
             }
         });
     }
 
     public boolean attemptSave() {
-        DateFormat dateFormat = new SimpleDateFormat("MMddyyyyHHmmss");
-        Date date = new Date();
 
-        //Report report = new Report("Test",
-        //        (Report.WaterType) typeSpinner.getSelectedItem(),
-        //        (Report.Condition) conditionSpinner.getSelectedItem());
-        Report report = new Report();
         List<Report> reports = new ArrayList<Report>();
         try {
             FileInputStream fis = openFileInput("mySources");
             ObjectInputStream objectInputStream = new ObjectInputStream(fis);
             reports = (List<Report>) objectInputStream.readObject();
+            Report report = new Report(new Date(), current.getUsername(), lat, lon,
+                    (Report.WaterType) typeSpinner.getSelectedItem(),
+                    (Report.Condition) conditionSpinner.getSelectedItem(), currentId + 1);
             reports.add(report);
             objectInputStream.close();
-            System.out.print("Opened with size of ");
-            System.out.println(reports.size());
 
             FileOutputStream fileOutputStream = openFileOutput("mySources", Context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -108,6 +118,9 @@ public class AddSourceActivity extends AppCompatActivity {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             reports = new ArrayList<Report>();
+            Report report = new Report(new Date(), current.getUsername(), lat, lon,
+                    (Report.WaterType) typeSpinner.getSelectedItem(),
+                    (Report.Condition) conditionSpinner.getSelectedItem(), currentId + 1);
             reports.add(report);
             try {
                 FileOutputStream fileOutputStream = openFileOutput("mySources",

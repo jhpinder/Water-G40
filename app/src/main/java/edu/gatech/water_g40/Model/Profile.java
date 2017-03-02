@@ -122,6 +122,7 @@ public class Profile implements Parcelable {
         name = in.readString();
         email_address = in.readString();
         home_address = in.readString();
+        title = (Title) in.readSerializable();
     }
 
     @Override
@@ -137,7 +138,7 @@ public class Profile implements Parcelable {
         dest.writeString(name);
         dest.writeString(email_address);
         dest.writeString(home_address);
-
+        dest.writeSerializable(title);
     }
 
     public static final Parcelable.Creator<Profile> CREATOR

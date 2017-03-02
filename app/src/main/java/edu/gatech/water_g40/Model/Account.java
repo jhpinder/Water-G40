@@ -82,6 +82,7 @@ public class Account implements Parcelable{
     private Account(Parcel in) {
         username = in.readString();
         password = in.readString();
+        profile = in.readParcelable(Profile.class.getClassLoader());
     }
 
     @Override
@@ -96,7 +97,7 @@ public class Account implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(username);
         dest.writeString(password);
-
+        dest.writeParcelable(profile, flags);
     }
 
     public static final Parcelable.Creator<Account> CREATOR
