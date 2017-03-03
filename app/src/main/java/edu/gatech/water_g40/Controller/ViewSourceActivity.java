@@ -15,6 +15,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
@@ -31,6 +33,8 @@ public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyC
     private TextView report_condition;
 
     private GoogleMap map;
+    private String previous;
+    private ArrayList reports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyC
         Intent intent = getIntent();
         report = (Report) intent.getParcelableExtra("current_report");
         current = (Account) intent.getParcelableExtra("account_logged_in");
+        previous = intent.getStringExtra("previous");
+        reports = intent.getParcelableArrayListExtra("reports");
 
         report_date_time = (TextView) findViewById(R.id.report_date_time);
         report_number = (TextView) findViewById(R.id.report_number);
@@ -71,9 +77,16 @@ public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyC
         viewSourceBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(ViewSourceActivity.this, MainMenuActivity.class);
-                myIntent.putExtra("account_logged_in", current);
-                ViewSourceActivity.this.startActivity(myIntent);
+                if (previous.equals("main_menu")) {
+                    Intent myIntent = new Intent(ViewSourceActivity.this, MainMenuActivity.class);
+                    myIntent.putExtra("account_logged_in", current);
+                    ViewSourceActivity.this.startActivity(myIntent);
+                } else if (previous.equals("map_view")) {
+                    Intent myIntent = new Intent(ViewSourceActivity.this, MapViewActivity.class);
+                    myIntent.putExtra("account_logged_in", current);
+                    myIntent.putParcelableArrayListExtra("reports", reports);
+                    ViewSourceActivity.this.startActivity(myIntent);
+                }
             }
         });
 

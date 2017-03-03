@@ -13,19 +13,24 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
-public class MapViewActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private Map<Marker, Report> h = new HashMap<>();
 
     protected Account current;
     protected ArrayList<? extends Parcelable> reports;
@@ -36,7 +41,7 @@ public class MapViewActivity extends FragmentActivity implements OnMapReadyCallb
         setContentView(R.layout.activity_map_view);
         Intent intent = getIntent();
         current = intent.getParcelableExtra("account_logged_in");
-        reports = (ArrayList) intent.getParcelableArrayListExtra("reports");
+        reports = intent.getParcelableArrayListExtra("reports");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.view_map);
@@ -71,8 +76,23 @@ public class MapViewActivity extends FragmentActivity implements OnMapReadyCallb
         for (int i = 0; i < reports.size(); i++) {
             Report r = (Report) reports.get(i);
             l = new LatLng(r.getLat(), r.getLon());
-            mMap.addMarker(new MarkerOptions().position(l).title(r.getWaterType().toString()));
+            Marker mark = mMap.addMarker(new MarkerOptions().position(l).title(r.getWaterType().toString()));
+            h.put(mark, r);
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(l));
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (h != null && h.get(marker) != null) {
+            Intent myIntent = new Intent(MapViewActivity.this, ViewSourceActivity.class);
+            myIntent.putExtra("previous", "map_view");
+            myIntent.putExtra("account_logged_in", current);
+            myIntent.putExtra("current_report", (Parcelable) h.get(marker));
+            myIntent.putExtra("reports", reports);
+            MapViewActivity.this.startActivity(myIntent);
+        }
+        return true;
     }
 }

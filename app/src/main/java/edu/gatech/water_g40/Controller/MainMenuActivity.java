@@ -76,6 +76,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(MainMenuActivity.this, ViewSourceActivity.class);
                 myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
                 myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("previous", "main_menu");
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });
