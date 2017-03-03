@@ -8,6 +8,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -100,7 +101,7 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
             public void onClick(View view) {
                 Intent myIntent = new Intent(AddSourceActivity.this, MainMenuActivity.class);
                 AddSourceActivity.this.startActivity(myIntent);
-                myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
             }
         });
 
@@ -124,7 +125,7 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
                     System.out.println("Did not save");
                 }
                 Intent myIntent = new Intent(AddSourceActivity.this, MainMenuActivity.class);
-                myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
                 AddSourceActivity.this.startActivity(myIntent);
             }
         });

@@ -38,6 +38,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
 
     public ArrayList<? extends Parcelable> reports = new ArrayList<Report>();
+    public ArrayList<? extends Parcelable> getReports() {
+        return reports;
+    }
+
+    public ArrayList<? extends Parcelable> users = new ArrayList<Account>();
+    public ArrayList<? extends Parcelable> getUsers() {
+        return users;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +72,15 @@ public class MainMenuActivity extends AppCompatActivity {
             reports = new ArrayList<Report>();
             e.printStackTrace();
         }
+
+        try {
+            FileInputStream usersFIS = openFileInput("myUsers");
+            ObjectInputStream usersOIS = new ObjectInputStream(usersFIS);
+            users = (ArrayList<Account>) usersOIS.readObject();
+        } catch (Exception e) {
+            users = new ArrayList<Account>();
+            e.printStackTrace();
+        }
         //reports.add(new Report());
 
         listView = (ListView) findViewById(R.id.main_menu_listview);
@@ -75,7 +92,7 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent myIntent = new Intent(MainMenuActivity.this, ViewSourceActivity.class);
                 myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
-                myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
                 myIntent.putExtra("previous", "main_menu");
                 MainMenuActivity.this.startActivity(myIntent);
             }
@@ -95,7 +112,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(MainMenuActivity.this, EditProfileActivity.class);
-                myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });
@@ -105,7 +122,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent4380 = new Intent(MainMenuActivity.this, AddSourceActivity.class);
-                myIntent4380.putExtra("account_logged_in", current);
+                myIntent4380.putExtra("account_logged_in", (Parcelable) current);
                 myIntent4380.putExtra("last_id", reports.size());
                 MainMenuActivity.this.startActivity(myIntent4380);
             }
@@ -135,7 +152,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainMenuActivity.this, MapViewActivity.class);
-                myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
                 myIntent.putParcelableArrayListExtra("reports", reports);
                 MainMenuActivity.this.startActivity(myIntent);
             }

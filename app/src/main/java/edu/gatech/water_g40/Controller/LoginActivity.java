@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -32,14 +33,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
 import edu.gatech.water_g40.Model.Account;
+import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
+import static android.Manifest.permission.ACCESS_CHECKIN_PROPERTIES;
 import static android.Manifest.permission.PACKAGE_USAGE_STATS;
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -60,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static Hashtable<String, Account> accountHashtable
             = new Hashtable<>(10);
 
+    public ArrayList<Account> users;
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -77,11 +84,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         // This is a default account to be used for testing/debugging
-        accountHashtable.put("Test", new Account("Test", "test"));
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+
+        try {
+            FileInputStream usersFIS = openFileInput("myUsers");
+            ObjectInputStream usersOIS = new ObjectInputStream(usersFIS);
+            users = (ArrayList<Account>) usersOIS.readObject();
+        } catch (Exception e) {
+            users = new ArrayList<Account>();
+            e.printStackTrace();
+        }
+
+        for (Account a : users) {
+            accountHashtable.put(a.getUsername(), a);
+        }
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -216,7 +236,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (mAuthTask.checkValidCombo(mAuthTask.getmEmail(), mAuthTask.getmPassword())){
                 Account currentAccount = accountHashtable.get(mAuthTask.getmEmail());
                 Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
-                myIntent.putExtra("account_logged_in", currentAccount);
+                myIntent.putExtra("account_logged_in", (Parcelable) currentAccount);
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);

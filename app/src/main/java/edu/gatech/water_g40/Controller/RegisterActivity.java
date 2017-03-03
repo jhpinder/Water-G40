@@ -1,5 +1,6 @@
 package edu.gatech.water_g40.Controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +14,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import edu.gatech.water_g40.Model.Account;
+import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
 import static edu.gatech.water_g40.Controller.LoginActivity.accountHashtable;
@@ -31,12 +43,14 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passEditField;
     private EditText passVerifEditField;
 
+
     boolean cancelClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
 
         // The Text Fields containing the new user's account data
         userEditField = (EditText) findViewById(R.id.username_text);
@@ -127,7 +141,48 @@ public class RegisterActivity extends AppCompatActivity {
                 focusView.requestFocus();
             } else {
                 // The account will be registered and added to the list of valid accounts
-                accountHashtable.put(userString, new Account(userString, passString));
+                List<Account> users = new ArrayList<Account>();
+                try {
+                    FileInputStream fis = openFileInput("myUsers");
+                    ObjectInputStream objectInputStream = new ObjectInputStream(fis);
+                    users = (List<Account>) objectInputStream.readObject();
+                    Account a = new Account(userString, passString);
+                    users.add(a);
+                    objectInputStream.close();
+
+                    FileOutputStream fileOutputStream = openFileOutput("myUsers", Context.MODE_PRIVATE);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(users);
+                    objectOutputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    users = new ArrayList<Account>();
+                    Account a = new Account(userString, passString);
+                    users.add(a);
+                    try {
+                        FileOutputStream fileOutputStream = openFileOutput("myUsers",
+                                Context.MODE_PRIVATE);
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                        objectOutputStream.writeObject(users);
+                        objectOutputStream.close();
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    try {
+                        FileOutputStream fileOutputStream = openFileOutput("myUsers",
+                                Context.MODE_PRIVATE);
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                        objectOutputStream.writeObject(users);
+                        objectOutputStream.close();
+                    } catch (Exception ex) {
+                        e.printStackTrace();
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 // The user will now be returned to the login screen so they can login with their new account
                 Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(myIntent);

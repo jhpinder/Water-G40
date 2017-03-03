@@ -2,6 +2,7 @@ package edu.gatech.water_g40.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -79,11 +80,11 @@ public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyC
             public void onClick(View view) {
                 if (previous.equals("main_menu")) {
                     Intent myIntent = new Intent(ViewSourceActivity.this, MainMenuActivity.class);
-                    myIntent.putExtra("account_logged_in", current);
+                    myIntent.putExtra("account_logged_in", (Parcelable) current);
                     ViewSourceActivity.this.startActivity(myIntent);
                 } else if (previous.equals("map_view")) {
                     Intent myIntent = new Intent(ViewSourceActivity.this, MapViewActivity.class);
-                    myIntent.putExtra("account_logged_in", current);
+                    myIntent.putExtra("account_logged_in", (Parcelable) current);
                     myIntent.putParcelableArrayListExtra("reports", reports);
                     ViewSourceActivity.this.startActivity(myIntent);
                 }

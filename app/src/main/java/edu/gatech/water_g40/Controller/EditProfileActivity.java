@@ -1,6 +1,7 @@
 package edu.gatech.water_g40.Controller;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +13,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import edu.gatech.water_g40.Model.Account;
-import edu.gatech.water_g40.Model.Profile;
 import edu.gatech.water_g40.R;
 
 /**
@@ -57,12 +57,11 @@ public class EditProfileActivity extends AppCompatActivity {
         /*
          * Create a dummy profile to grab the 'legalTitles' enum array
          */
-        Profile dummy = new Profile("enter new name" , "test@test.com", "NA");
 
         /*
           Set up the adapter to display the allowable majors in the spinner
          */
-        ArrayAdapter<Profile.Title> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, dummy.legalTitles);
+        ArrayAdapter<Account.Title> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Account.legalTitles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         titleSpinner.setAdapter(adapter);
 
@@ -101,7 +100,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String nameString = nameField.getText().toString();
         String emailString = emailField.getText().toString();
         String homeString = homeField.getText().toString();
-        Profile.Title userType = (Profile.Title) titleSpinner.getSelectedItem();
+        Account.Title userType = (Account.Title) titleSpinner.getSelectedItem();
 
 
         if (!cancelClicked) {
@@ -143,23 +142,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 // form field with an error.
                 focusView.requestFocus();
             } else {
-                if (editAccount.getProfile() == null) {
-                    // The user has never entered any profile info
-                    editAccount.setProfile(new Profile(
-                            nameString,
-                            emailString,
-                            homeString,
-                            userType
-                    ));
-                } else {
-                    // The user is updating their current profile information
-                    Profile currentProfile = editAccount.getProfile();
-                    currentProfile.setName(nameString);
-                    currentProfile.setEmailAddress(emailString);
-                    currentProfile.setHomeAddress(homeString);
-                    currentProfile.setTitle(userType);
-                    editAccount.setProfile(currentProfile);
-                }
+                editAccount.setName(nameString);
+                editAccount.setEmailAddress(emailString);
+                editAccount.setHomeAddress(homeString);
+                editAccount.setTitle(userType);
             }
         }
         /*
@@ -167,7 +153,7 @@ public class EditProfileActivity extends AppCompatActivity {
         * so return to the main menu
         */
         Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
-        myIntent.putExtra("account_logged_in", editAccount);
+        myIntent.putExtra("account_logged_in", (Parcelable) editAccount);
         EditProfileActivity.this.startActivity(myIntent);
 
     }

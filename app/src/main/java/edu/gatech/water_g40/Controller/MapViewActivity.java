@@ -52,7 +52,7 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(MapViewActivity.this, MainMenuActivity.class);
-                myIntent.putExtra("account_logged_in", current);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
                 myIntent.putParcelableArrayListExtra("reports", reports);
                 MapViewActivity.this.startActivity(myIntent);
             }
@@ -88,7 +88,7 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
         if (h != null && h.get(marker) != null) {
             Intent myIntent = new Intent(MapViewActivity.this, ViewSourceActivity.class);
             myIntent.putExtra("previous", "map_view");
-            myIntent.putExtra("account_logged_in", current);
+            myIntent.putExtra("account_logged_in", (Parcelable) current);
             myIntent.putExtra("current_report", (Parcelable) h.get(marker));
             myIntent.putExtra("reports", reports);
             MapViewActivity.this.startActivity(myIntent);

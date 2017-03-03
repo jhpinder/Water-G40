@@ -3,6 +3,7 @@ package edu.gatech.water_g40.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,11 +17,51 @@ import java.util.List;
  *
  */
 
-public class Account implements Parcelable{
+public class Account implements Parcelable, Serializable {
     
     private String username;
     private String password;
-    private Profile profile;
+    private String name;
+    private String email_address;
+    private String home_address;
+    private Title title;
+
+
+
+    // An enum to hold class standings, each with their own two character attribute
+    public enum Title {
+        USER("User"),
+        WORKER("Worker"),
+        MANAGER("Manager"),
+        ADMINISTRATOR("Administrator");
+
+        private String name;
+
+        private Title(String name) { this.name = name; }
+
+        public String toString() {
+            return name;
+        }
+
+    }
+
+    public static List<Title> legalTitles = Arrays.asList(Title.values());
+
+
+    /* **********************
+     * Getters and setters
+     */
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmailAddress() {return email_address; }
+    public void setEmailAddress(String email) { email_address = email; }
+
+    public String getHomeAddress() {return home_address; }
+    public void setHomeAddress(String home) { home_address = home; }
+
+    public Title getTitle() {return title; }
+    public void setTitle(Title standing) { title = standing; }
 
 
     /* **********************
@@ -32,28 +73,15 @@ public class Account implements Parcelable{
     public String getPassword() {return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public void setProfile(Profile profile) { this.profile = profile; }
-    public Profile getProfile() { return profile; }
 
     /**
-     * Make a new Account (2-parameter default)
-     * @param username      the Account's username
+     * Make a new Account (2-param default)
+     * @param username     the Account's username
      * @param password     the Account's password
      */
     public Account(String username, String password) {
-        this(username, password, new Profile());
-    }
-
-    /**
-     * Make a new Account (3-parameter)
-     * @param username     the Account's username
-     * @param password     the Account's password
-     * @param profile      the Account's profile
-     */
-    public Account(String username, String password, Profile profile) {
         this.username = username;
         this.password = password;
-        this.profile = profile;
     }
 
     /**
@@ -70,7 +98,7 @@ public class Account implements Parcelable{
      */
     @Override
     public String toString() {
-        return username + " " + password;
+        return username + " " + password + " " + name + " " + email_address + " " + home_address + " " + title;
     }
 
 
@@ -82,7 +110,10 @@ public class Account implements Parcelable{
     private Account(Parcel in) {
         username = in.readString();
         password = in.readString();
-        profile = in.readParcelable(Profile.class.getClassLoader());
+        name = in.readString();
+        email_address = in.readString();
+        home_address = in.readString();
+        title = (Title) in.readSerializable();
     }
 
     @Override
@@ -97,7 +128,10 @@ public class Account implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(username);
         dest.writeString(password);
-        dest.writeParcelable(profile, flags);
+        dest.writeString(name);
+        dest.writeString(email_address);
+        dest.writeString(home_address);
+        dest.writeSerializable(title);
     }
 
     public static final Parcelable.Creator<Account> CREATOR
