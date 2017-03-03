@@ -93,6 +93,7 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
                 .findFragmentById(R.id.add_fragment);
         mapFragment.getMapAsync(this);
 
+
         final Button cancelButton = (Button) findViewById(R.id.add_source_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,14 +110,14 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
             public void onClick(View view) {
                 editLat.setError(null);
                 editLon.setError(null);
-                if (!editLat.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
-                    editLat.setError("Please enter a valid number");
-                    return;
-                }
-                if (!editLon.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
-                    editLon.setError("Please enter a valid number");
-                    return;
-                }
+//                if (!editLat.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+//                    editLat.setError("Please enter a valid number");
+//                    return;
+//                }
+//                if (!editLon.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+//                    editLon.setError("Please enter a valid number");
+//                    return;
+//                }
                 if (attemptSave()) {
                     System.out.println("Saved");
                 } else {
@@ -132,7 +133,15 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng point) {
+                lat = point.latitude;
+                lon = point.longitude;
+                map.clear();
+                map.addMarker(new MarkerOptions().position(point));
+            }
+        });
     }
 
     public boolean attemptSave() {
@@ -142,9 +151,7 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
             FileInputStream fis = openFileInput("mySources");
             ObjectInputStream objectInputStream = new ObjectInputStream(fis);
             reports = (List<Report>) objectInputStream.readObject();
-            Report report = new Report(new Date(), current.getUsername(),
-                    Double.parseDouble(editLat.getText().toString()),
-                    Double.parseDouble(editLon.getText().toString()),
+            Report report = new Report(new Date(), current.getUsername(), lat, lon,
                     (Report.WaterType) typeSpinner.getSelectedItem(),
                     (Report.Condition) conditionSpinner.getSelectedItem(), currentId + 1);
             reports.add(report);

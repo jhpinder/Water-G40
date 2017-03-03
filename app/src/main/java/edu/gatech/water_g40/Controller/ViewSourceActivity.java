@@ -8,11 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
-public class ViewSourceActivity extends AppCompatActivity {
+public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyCallback {
     protected Account current;
     protected Report report;
 
@@ -22,6 +29,8 @@ public class ViewSourceActivity extends AppCompatActivity {
     private TextView report_lat_lon;
     private TextView report_type;
     private TextView report_condition;
+
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +61,12 @@ public class ViewSourceActivity extends AppCompatActivity {
         report_type.setText(type);
         report_condition.setText(condition);
 
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.view_source_map);
+        mapFragment.getMapAsync(this);
+
+
         final Button viewSourceBack = (Button) findViewById(R.id.view_source_back);
         viewSourceBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,5 +77,12 @@ public class ViewSourceActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        LatLng latLon = new LatLng(report.getLat(), report.getLon());
+        map.addMarker(new MarkerOptions().position(latLon));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLon, 3));
     }
 }
