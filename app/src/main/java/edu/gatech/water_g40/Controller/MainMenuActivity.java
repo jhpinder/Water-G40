@@ -37,7 +37,7 @@ public class MainMenuActivity extends AppCompatActivity {
     protected Account current;
 
 
-    public List<Report> reports = new ArrayList<Report>();
+    public ArrayList<? extends Parcelable> reports = new ArrayList<Report>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class MainMenuActivity extends AppCompatActivity {
         try {
             FileInputStream sourcesFIS = openFileInput("mySources");
             ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
-            reports = (List<Report>) sourcesOIS.readObject();
+            reports = (ArrayList<Report>) sourcesOIS.readObject();
         } catch (Exception e) {
             reports = new ArrayList<Report>();
             e.printStackTrace();
@@ -79,7 +79,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });
-        System.out.println(reports.get(reports.size() - 1).getReportNum());
 
         final Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +126,17 @@ public class MainMenuActivity extends AppCompatActivity {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+            }
+        });
+
+        final Button mapViewButton = (Button) findViewById(R.id.main_menu_map);
+        mapViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainMenuActivity.this, MapViewActivity.class);
+                myIntent.putExtra("account_logged_in", current);
+                myIntent.putParcelableArrayListExtra("reports", reports);
+                MainMenuActivity.this.startActivity(myIntent);
             }
         });
     }

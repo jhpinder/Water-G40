@@ -8,6 +8,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,7 +50,7 @@ import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
-public class AddSourceActivity extends AppCompatActivity {
+public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Spinner typeSpinner;
     private Spinner conditionSpinner;
@@ -50,6 +63,7 @@ public class AddSourceActivity extends AppCompatActivity {
     protected Account current;
 
     private int currentId;
+    private GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +72,12 @@ public class AddSourceActivity extends AppCompatActivity {
         Intent intent = getIntent();
         current = intent.getParcelableExtra("account_logged_in");
         currentId = intent.getIntExtra("last_id", 5);
-        System.out.println(currentId);
 
         typeSpinner = (Spinner) findViewById(R.id.type_spinner);
         conditionSpinner = (Spinner) findViewById(R.id.condition_spinner);
         editLat = (EditText) findViewById(R.id.lat_text);
         editLon = (EditText) findViewById(R.id.lon_text);
+
 
         ArrayAdapter<Report.WaterType> waterTypeArrayAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, Report.legalTypes);
@@ -75,7 +89,9 @@ public class AddSourceActivity extends AppCompatActivity {
         conditionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         conditionSpinner.setAdapter(conditionAdapter);
 
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.add_fragment);
+        mapFragment.getMapAsync(this);
 
         final Button cancelButton = (Button) findViewById(R.id.add_source_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +127,12 @@ public class AddSourceActivity extends AppCompatActivity {
                 AddSourceActivity.this.startActivity(myIntent);
             }
         });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
     }
 
     public boolean attemptSave() {
