@@ -146,15 +146,19 @@ public class EditProfileActivity extends AppCompatActivity {
                 editAccount.setEmailAddress(emailString);
                 editAccount.setHomeAddress(homeString);
                 editAccount.setTitle(userType);
+                Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
+                myIntent.putExtra("account_logged_in", (Parcelable) editAccount);
+                EditProfileActivity.this.startActivity(myIntent);
             }
+        } else {
+            /*
+            * The user clicked the cancel button during editing
+            * so return to the main menu
+            */
+            Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
+            myIntent.putExtra("account_logged_in", (Parcelable) editAccount);
+            EditProfileActivity.this.startActivity(myIntent);
         }
-        /*
-        * The user clicked the cancel button during editing
-        * so return to the main menu
-        */
-        Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
-        myIntent.putExtra("account_logged_in", (Parcelable) editAccount);
-        EditProfileActivity.this.startActivity(myIntent);
 
     }
 
