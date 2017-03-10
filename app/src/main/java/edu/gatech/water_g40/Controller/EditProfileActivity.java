@@ -1,5 +1,6 @@
 package edu.gatech.water_g40.Controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.gatech.water_g40.Model.Account;
 import edu.gatech.water_g40.R;
@@ -146,6 +156,48 @@ public class EditProfileActivity extends AppCompatActivity {
                 editAccount.setEmailAddress(emailString);
                 editAccount.setHomeAddress(homeString);
                 editAccount.setTitle(userType);
+                List<Account> users = new ArrayList<Account>();
+                try {
+                    FileInputStream fis = openFileInput("myUsers");
+                    ObjectInputStream objectInputStream = new ObjectInputStream(fis);
+                    users = (List<Account>) objectInputStream.readObject();
+                    users.remove(editAccount);
+                    users.add(editAccount);
+                    objectInputStream.close();
+
+                    FileOutputStream fileOutputStream = openFileOutput("myUsers", Context.MODE_PRIVATE);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                    objectOutputStream.writeObject(users);
+                    objectOutputStream.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    users = new ArrayList<Account>();
+                    users.remove(editAccount);
+                    users.add(editAccount);
+                    try {
+                        FileOutputStream fileOutputStream = openFileOutput("myUsers",
+                                Context.MODE_PRIVATE);
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                        objectOutputStream.writeObject(users);
+                        objectOutputStream.close();
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    try {
+                        FileOutputStream fileOutputStream = openFileOutput("myUsers",
+                                Context.MODE_PRIVATE);
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                        objectOutputStream.writeObject(users);
+                        objectOutputStream.close();
+                    } catch (Exception ex) {
+                        e.printStackTrace();
+                    }
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) editAccount);
                 EditProfileActivity.this.startActivity(myIntent);

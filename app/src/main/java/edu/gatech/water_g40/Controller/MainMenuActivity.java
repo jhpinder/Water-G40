@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Parcelable;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -127,6 +128,28 @@ public class MainMenuActivity extends AppCompatActivity {
                 MainMenuActivity.this.startActivity(myIntent4380);
             }
         });
+
+        final Button submitQualityReportButton = (Button) findViewById(R.id.main_submit_qr);
+        submitQualityReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!current.getTitle().equals(Account.Title.USER)) {
+                    Intent myIntent = new Intent(MainMenuActivity.this, SubmitQualityReportActivity.class);
+                    myIntent.putExtra("account_logged_in", (Parcelable) current);
+                    MainMenuActivity.this.startActivity(myIntent);
+                }
+            }
+        });
+
+        if (current.getTitle() != null) {
+            if (current.getTitle().equals(Account.Title.USER)) {
+                submitQualityReportButton.setVisibility(View.GONE);
+            } else {
+                submitQualityReportButton.setVisibility(View.VISIBLE);
+            }
+        } else {
+            submitQualityReportButton.setVisibility(View.GONE);
+        }
 
         final Button deleteAllButton = (Button) findViewById(R.id.delete_all);
         deleteAllButton.setOnClickListener(new View.OnClickListener() {

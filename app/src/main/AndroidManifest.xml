@@ -43,7 +43,8 @@
 
         <activity
             android:name=".Controller.MapViewActivity"
-            android:label="@string/title_activity_map_view"></activity>
+            android:label="@string/title_activity_map_view" />
+        <activity android:name=".Controller.SubmitQualityReportActivity"></activity>
     </application>
 
 </manifest>
