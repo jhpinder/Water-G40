@@ -29,7 +29,8 @@
             tools:text="Enter lattitude"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/add_source_cancel"
-            android:layout_marginStart="13dp" />
+            android:layout_marginStart="13dp"
+            android:visibility="invisible" />
 
         <Button
             android:text="Cancel"
@@ -56,7 +57,8 @@
             android:layout_below="@+id/lat_text"
             android:layout_alignParentEnd="true"
             android:layout_alignStart="@+id/lat_text"
-            tools:text="Enter longitude" />
+            tools:text="Enter longitude"
+            android:visibility="invisible" />
 
         <TextView
             android:text="Enter latitude"
@@ -68,7 +70,8 @@
             android:layout_above="@+id/lon_text"
             android:layout_alignEnd="@+id/add_source_cancel"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="invisible" />
 
         <TextView
             android:text="Enter longitude"
@@ -78,7 +81,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="18sp"
             android:layout_below="@+id/textView2"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:orientation="vertical"

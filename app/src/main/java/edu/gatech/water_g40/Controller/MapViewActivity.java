@@ -97,8 +97,15 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (h != null && h.get(marker) != null) {
+        if (h != null && h.get(marker) != null && h.get(marker) instanceof Report) {
             Intent myIntent = new Intent(MapViewActivity.this, ViewSourceActivity.class);
+            myIntent.putExtra("previous", "map_view");
+            myIntent.putExtra("account_logged_in", (Parcelable) current);
+            myIntent.putExtra("current_report", (Parcelable) h.get(marker));
+            myIntent.putExtra("reports", reports);
+            MapViewActivity.this.startActivity(myIntent);
+        } else if (h != null && h.get(marker) != null && h.get(marker) instanceof QualityReport) {
+            Intent myIntent = new Intent(MapViewActivity.this, ViewQualityReportActivity.class);
             myIntent.putExtra("previous", "map_view");
             myIntent.putExtra("account_logged_in", (Parcelable) current);
             myIntent.putExtra("current_report", (Parcelable) h.get(marker));

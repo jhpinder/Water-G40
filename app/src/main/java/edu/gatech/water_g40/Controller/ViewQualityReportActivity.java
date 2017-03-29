@@ -41,7 +41,7 @@ public class ViewQualityReportActivity extends AppCompatActivity implements OnMa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_source);
+        setContentView(R.layout.activity_view_quality_report);
         Intent intent = getIntent();
         report = (QualityReport) intent.getParcelableExtra("current_report");
         current = (Account) intent.getParcelableExtra("account_logged_in");
@@ -64,6 +64,7 @@ public class ViewQualityReportActivity extends AppCompatActivity implements OnMa
         String vPPM = "Virus PPM: " + Double.toString(report.getVirusPPM());
         String cPPM = "Contaminant PPM: " + Double.toString(report.getContaminantPPM());
 
+        System.out.println(report_date_time == null);
         report_date_time.setText(dateTime);
         report_number.setText(repNum);
         report_username.setText(user);
