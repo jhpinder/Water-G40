@@ -4,13 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by jhpinder on 3/9/17.
+ * Quality report class for anyone but users to use
  */
 
 public class QualityReport implements Parcelable, Serializable{
@@ -42,14 +42,11 @@ public class QualityReport implements Parcelable, Serializable{
         }
     }
 
+    /**
+     * List for legal values of qconditions
+     */
     public static List<QCondition> legalQConditions = Arrays.asList(QCondition.values());
 
-    /**
-     * No arg constructor, do not use this
-     */
-    public QualityReport() {
-        this(new Date(), 0, "default", 0, 0, QCondition.SAFE, 0, 0);
-    }
 
     /**
      * 8 arg constructor, please only use this.
@@ -75,7 +72,19 @@ public class QualityReport implements Parcelable, Serializable{
         return "Quality report submitted by " + name;
     }
 
+    public String getName() { return name; }
+    public Date getDate() { return date; }
+    public int getReportNumber() { return reportNumber; }
+    public double getLat() { return lat; }
+    public double getLon() { return lon; }
+    public QCondition getqCondition() { return qCondition; }
+    public double getVirusPPM() { return virusPPM; }
+    public double getContaminantPPM() { return contaminantPPM; }
 
+    /**
+     * Parcelable requirement
+     * @param in Parcel to unpack
+     */
     protected QualityReport(Parcel in) {
         date = (Date) in.readSerializable();
         reportNumber = in.readInt();
@@ -87,6 +96,9 @@ public class QualityReport implements Parcelable, Serializable{
         contaminantPPM = in.readDouble();
     }
 
+    /**
+     * Required for interfaces
+     */
     public static final Creator<QualityReport> CREATOR = new Creator<QualityReport>() {
         @Override
         public QualityReport createFromParcel(Parcel in) {
@@ -99,11 +111,20 @@ public class QualityReport implements Parcelable, Serializable{
         }
     };
 
+    /**
+     * required for interfaces
+     * @return 0 default
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Required for parcelable
+     * @param dest Parcel to write to
+     * @param flags flags, none used
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(date);

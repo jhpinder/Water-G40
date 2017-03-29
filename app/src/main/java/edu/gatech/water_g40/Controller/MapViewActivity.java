@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.gatech.water_g40.Model.Account;
+import edu.gatech.water_g40.Model.QualityReport;
 import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
@@ -30,7 +31,7 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
 
     private GoogleMap mMap;
 
-    private Map<Marker, Report> h = new HashMap<>();
+    private Map<Marker, Object> h = new HashMap<>();
 
     protected Account current;
     protected ArrayList<? extends Parcelable> reports;
@@ -73,11 +74,22 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng l = new LatLng(0,0);
-        for (int i = 0; i < reports.size(); i++) {
-            Report r = (Report) reports.get(i);
-            l = new LatLng(r.getLat(), r.getLon());
-            Marker mark = mMap.addMarker(new MarkerOptions().position(l).title(r.getWaterType().toString()));
-            h.put(mark, r);
+        if (reports != null && reports.get(0) instanceof Report) {
+            for (int i = 0; i < reports.size(); i++) {
+                Report r = (Report) reports.get(i);
+                l = new LatLng(r.getLat(), r.getLon());
+                Marker mark = mMap.addMarker(new MarkerOptions().position(l).title(
+                        r.getWaterType().toString()));
+                h.put(mark, r);
+            }
+        } else if (reports != null && reports.get(0) instanceof QualityReport) {
+            for (int i = 0; i < reports.size(); i++) {
+                QualityReport r = (QualityReport) reports.get(i);
+                l = new LatLng(r.getLat(), r.getLon());
+                Marker mark = mMap.addMarker(new MarkerOptions().position(l).title(
+                        r.getqCondition().toString()));
+                h.put(mark, r);
+            }
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(l));
         mMap.setOnMarkerClickListener(this);

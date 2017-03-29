@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.gatech.water_g40.Model.Account;
+import edu.gatech.water_g40.Model.QualityReport;
 import edu.gatech.water_g40.Model.Report;
 import edu.gatech.water_g40.R;
 
@@ -37,7 +38,6 @@ public class MainMenuActivity extends AppCompatActivity {
     private ListView listView;
     protected Account current;
 
-
     public ArrayList<? extends Parcelable> reports = new ArrayList<Report>();
     public ArrayList<? extends Parcelable> getReports() {
         return reports;
@@ -47,6 +47,13 @@ public class MainMenuActivity extends AppCompatActivity {
     public ArrayList<? extends Parcelable> getUsers() {
         return users;
     }
+
+    public ArrayList<? extends Parcelable> qReports = new ArrayList<QualityReport>();
+    public ArrayList<? extends Parcelable> getqReports() {
+        return qReports;
+    }
+
+    private int reportMode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,22 +89,51 @@ public class MainMenuActivity extends AppCompatActivity {
             users = new ArrayList<Account>();
             e.printStackTrace();
         }
+
+        try {
+            FileInputStream qReportsFIS = openFileInput("myQReports");
+            ObjectInputStream qReportsOIS = new ObjectInputStream(qReportsFIS);
+            qReports = (ArrayList<QualityReport>) qReportsOIS.readObject();
+        } catch (Exception e) {
+            qReports = new ArrayList<QualityReport>();
+            e.printStackTrace();
+        }
+        System.out.println(qReports.size());
         //reports.add(new Report());
 
-        listView = (ListView) findViewById(R.id.main_menu_listview);
-        final ArrayAdapter<Report> listViewAdapter = new ArrayAdapter(this,
+
+        final ArrayAdapter<Report> reportArrayAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_1, reports);
-        listView.setAdapter(listViewAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(MainMenuActivity.this, ViewSourceActivity.class);
-                myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
-                myIntent.putExtra("account_logged_in", (Parcelable) current);
-                myIntent.putExtra("previous", "main_menu");
-                MainMenuActivity.this.startActivity(myIntent);
-            }
-        });
+        final ArrayAdapter<QualityReport> qualityReportArrayAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, qReports);
+
+        if (reportMode == 0) {
+            listView = (ListView) findViewById(R.id.main_menu_listview);
+            listView.setAdapter(reportArrayAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myIntent = new Intent(MainMenuActivity.this, ViewSourceActivity.class);
+                    myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
+                    myIntent.putExtra("account_logged_in", (Parcelable) current);
+                    myIntent.putExtra("previous", "main_menu");
+                    MainMenuActivity.this.startActivity(myIntent);
+                }
+            });
+        } else {
+            listView = (ListView) findViewById(R.id.main_menu_listview);
+            listView.setAdapter(qualityReportArrayAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent myIntent = new Intent(MainMenuActivity.this, ViewQualityReportActivity.class);
+                    myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
+                    myIntent.putExtra("account_logged_in", (Parcelable) current);
+                    myIntent.putExtra("previous", "main_menu");
+                    MainMenuActivity.this.startActivity(myIntent);
+                }
+            });
+        }
 
         final Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -132,40 +168,48 @@ public class MainMenuActivity extends AppCompatActivity {
         final Button submitQualityReportButton = (Button) findViewById(R.id.main_submit_qr);
         submitQualityReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 if (!current.getTitle().equals(Account.Title.USER)) {
                     Intent myIntent = new Intent(MainMenuActivity.this, SubmitQualityReportActivity.class);
+                    myIntent.putExtra("currentId", qReports.size());
                     myIntent.putExtra("account_logged_in", (Parcelable) current);
                     MainMenuActivity.this.startActivity(myIntent);
                 }
             }
         });
 
-        if (current.getTitle() != null) {
-            if (current.getTitle().equals(Account.Title.USER)) {
-                submitQualityReportButton.setVisibility(View.GONE);
-            } else {
-                submitQualityReportButton.setVisibility(View.VISIBLE);
-            }
-        } else {
-            submitQualityReportButton.setVisibility(View.GONE);
-        }
-
-        final Button deleteAllButton = (Button) findViewById(R.id.delete_all);
-        deleteAllButton.setOnClickListener(new View.OnClickListener() {
+        final Button swap = (Button) findViewById(R.id.main_menu_swap);
+        swap.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                try {
-                    FileOutputStream fileOutputStream = openFileOutput("mySources",
-                            Context.MODE_PRIVATE);
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-                    reports = new ArrayList<Report>();
-                    objectOutputStream.writeObject(reports);
-                    objectOutputStream.close();
-                    listViewAdapter.clear();
-                    listViewAdapter.notifyDataSetChanged();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            public void onClick(View v) {
+                if (reportMode == 0) {
+                    reportMode = 1;
+                    listView = (ListView) findViewById(R.id.main_menu_listview);
+                    listView.setAdapter(qualityReportArrayAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent myIntent = new Intent(MainMenuActivity.this, ViewQualityReportActivity.class);
+                            myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
+                            myIntent.putExtra("account_logged_in", (Parcelable) current);
+                            myIntent.putExtra("previous", "main_menu");
+                            MainMenuActivity.this.startActivity(myIntent);
+                        }
+                    });
+                } else {
+                    reportMode = 0;
+                    listView = (ListView) findViewById(R.id.main_menu_listview);
+                    listView.setAdapter(reportArrayAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent myIntent = new Intent(MainMenuActivity.this, ViewSourceActivity.class);
+                            myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
+                            myIntent.putExtra("account_logged_in", (Parcelable) current);
+                            myIntent.putExtra("previous", "main_menu");
+                            MainMenuActivity.this.startActivity(myIntent);
+                        }
+                    });
                 }
             }
         });
@@ -176,10 +220,48 @@ public class MainMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(MainMenuActivity.this, MapViewActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) current);
-                myIntent.putParcelableArrayListExtra("reports", reports);
+                if (reportMode == 0) {
+                    myIntent.putParcelableArrayListExtra("reports", reports);
+                } else {
+                    myIntent.putParcelableArrayListExtra("reports", qReports);
+                }
                 MainMenuActivity.this.startActivity(myIntent);
             }
         });
+
+        if (current.getTitle() != null) {
+            if (current.getTitle().equals(Account.Title.USER)) {
+                submitQualityReportButton.setVisibility(View.GONE);
+                swap.setVisibility(View.GONE);
+            } else {
+                submitQualityReportButton.setVisibility(View.VISIBLE);
+                swap.setVisibility(View.VISIBLE);
+            }
+        } else {
+            submitQualityReportButton.setVisibility(View.GONE);
+            swap.setVisibility(View.GONE);
+        }
+
+//        final Button deleteAllButton = (Button) findViewById(R.id.delete_all);
+//        deleteAllButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                try {
+//                    FileOutputStream fileOutputStream = openFileOutput("mySources",
+//                            Context.MODE_PRIVATE);
+//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+//                    reports = new ArrayList<Report>();
+//                    objectOutputStream.writeObject(reports);
+//                    objectOutputStream.close();
+//                    listViewAdapter.clear();
+//                    listViewAdapter.notifyDataSetChanged();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
+
+
     }
 
 }
