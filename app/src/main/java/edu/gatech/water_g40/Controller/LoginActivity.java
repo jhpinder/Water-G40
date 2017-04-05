@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /*
-     * A hash table to store and keep track of Accounts based on usernames
+     * A hash table to store and keep track of Accounts based on names
      */
     public static Hashtable<String, Account> accountHashtable
             = new Hashtable<>(10);

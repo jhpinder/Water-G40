@@ -43,6 +43,9 @@ public class HistoryGraphActivity extends AppCompatActivity {
     private GraphView graph;
     LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
 
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +139,16 @@ public class HistoryGraphActivity extends AppCompatActivity {
 
     }
 
+    /*
+     * Populates the graph with the appropriate data points
+     *
+     * @param lat    the latitude coordinates for the graph query
+     * @param lon    the longitude coordinates for the graph query
+     * @param year   the year of the graph query
+     * @param virus  whether the graph is for a virus or a contaminant
+     *
+     * @return a map of data points on the graph
+     */
     private Map<Integer, Double> populate(double lat, double lon, int year, boolean virus) {
         series = new LineGraphSeries<>();
         Map<Integer, Double> dataPoints = new HashMap<>();
@@ -165,6 +178,15 @@ public class HistoryGraphActivity extends AppCompatActivity {
         return dataPoints;
     }
 
+    /*
+     * Checks if a report is within the specified radius of the graph query
+     *
+     * @param lat1           the latitude coordinates of the search
+     * @param lon1           the longitude coordinates of the search
+     * @param qualityReport  the report to be verified
+     *
+     * @return if the reports are within the radius of the graph query
+     */
     private boolean checkIfInRad(double lat1, double lon1, QualityReport qualityReport) {
         double lat2 = qualityReport.getLat();
         double lon2 = qualityReport.getLon();

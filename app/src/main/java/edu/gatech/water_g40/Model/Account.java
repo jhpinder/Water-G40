@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Vikram Kumar (Archlefirth) on 2/22/2017.
  *
- * Service Provider - allows logins via acting account data
+ * Service Provider - allows login via acting account data
  *
  * We are passing this object in a bundle between intents, so we implement
  * the Parcelable interface.

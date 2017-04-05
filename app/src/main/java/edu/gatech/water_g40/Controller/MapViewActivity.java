@@ -72,6 +72,8 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
+     *
+     * @param googleMap the google map to display and initialize
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -98,6 +100,11 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
         mMap.setOnMarkerClickListener(this);
     }
 
+    /**
+     * places the marker and records the data when a user places a marker
+     *
+     * @param marker the marker to place and store the data of
+     */
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (h != null && h.get(marker) != null && h.get(marker) instanceof Report) {

@@ -101,7 +101,9 @@ public class ViewQualityReportActivity extends AppCompatActivity implements OnMa
     }
 
     /*
-        Initializes the map and readies the Google Map functionality
+     *  Initializes the map and readies the Google Map functionality
+     *
+     * @param googleMap the google map to display and initialize
      */
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;

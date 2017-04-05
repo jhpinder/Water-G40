@@ -64,17 +64,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
         current = (Account) intent.getParcelableExtra("account_logged_in");
-//        try {
-//            FileOutputStream fileOutputStream = openFileOutput("mySources",
-//                    Context.MODE_PRIVATE);
-//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//            objectOutputStream.writeObject(reports);
-//            objectOutputStream.close();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-
-
         try {
             FileInputStream sourcesFIS = openFileInput("mySources");
             ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
@@ -264,27 +253,6 @@ public class MainMenuActivity extends AppCompatActivity {
             submitQualityReportButton.setVisibility(View.GONE);
             swap.setVisibility(View.GONE);
         }
-
-//        final Button deleteAllButton = (Button) findViewById(R.id.delete_all);
-//        deleteAllButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                try {
-//                    FileOutputStream fileOutputStream = openFileOutput("mySources",
-//                            Context.MODE_PRIVATE);
-//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-//                    reports = new ArrayList<Report>();
-//                    objectOutputStream.writeObject(reports);
-//                    objectOutputStream.close();
-//                    listViewAdapter.clear();
-//                    listViewAdapter.notifyDataSetChanged();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        });
-
-
     }
 
 }
