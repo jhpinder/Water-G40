@@ -78,8 +78,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/main_menu_map"
         android:textSize="12sp"
+        android:layout_width="60sp"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/main_menu_graph_button"
-        android:layout_width="70sp" />
+        android:layout_toEndOf="@+id/back_button" />
 
 </RelativeLayout>

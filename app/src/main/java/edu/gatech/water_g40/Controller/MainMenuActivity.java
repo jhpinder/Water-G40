@@ -147,7 +147,7 @@ public class MainMenuActivity extends AppCompatActivity {
         final Button graphButton = (Button) findViewById(R.id.main_menu_graph_button);
         graphButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent myIntent = new Intent(MainMenuActivity.this, HistoryGraphActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) current);
                 MainMenuActivity.this.startActivity(myIntent);

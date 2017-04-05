@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -80,6 +81,16 @@ public class QualityReport implements Parcelable, Serializable{
     public QCondition getqCondition() { return qCondition; }
     public double getVirusPPM() { return virusPPM; }
     public double getContaminantPPM() { return contaminantPPM; }
+
+    public int getYear() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY");
+        return Integer.parseInt(dateFormat.format(date));
+    }
+
+    public int getMonth() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        return Integer.parseInt(dateFormat.format(date));
+    }
 
     /**
      * Parcelable requirement

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -120,8 +121,15 @@ public class Report implements Parcelable, Serializable {
         return reportNum;
     }
 
+    public int getYear() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY");
+        return Integer.parseInt(dateFormat.format(date));
+    }
 
-
+    public int getMonth() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
+        return Integer.parseInt(dateFormat.format(date));
+    }
 
 
     private Report(Parcel in) {
