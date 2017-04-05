@@ -144,6 +144,16 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        final Button graphButton = (Button) findViewById(R.id.main_menu_graph_button);
+        graphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainMenuActivity.this, HistoryGraphActivity.class);
+                myIntent.putExtra("account_logged_in", (Parcelable) current);
+                MainMenuActivity.this.startActivity(myIntent);
+            }
+        });
+
         final Button editProfileButton = (Button) findViewById(R.id.edit_profile_button);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
