@@ -25,18 +25,10 @@
         android:layout_alignParentStart="true"
         android:id="@+id/graph_back_button" />
 
-    <TextView
-        android:text="Latitude:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentStart="true" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:layout_below="@+id/graph_lat"
         android:layout_alignStart="@+id/graph_lat"
@@ -45,7 +37,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:ems="10"
         android:id="@+id/graph_lat"
         android:layout_below="@+id/history_graph"
@@ -58,15 +50,6 @@
         android:layout_alignTop="@+id/graph_back_button"
         android:layout_alignParentEnd="true"
         android:id="@+id/graph_update_button" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/graph_spinner"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/graph_year" />
 
     <TextView
         android:text="Lattitude"
@@ -88,12 +71,14 @@
         android:layout_alignBottom="@+id/graph_lon"
         android:layout_alignParentStart="true" />
 
-    <Spinner
-        android:layout_width="match_parent"
+    <EditText
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/graph_spinner"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/graph_year"
         android:layout_below="@+id/graph_lon"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:text="Year"
@@ -103,6 +88,13 @@
         android:textSize="18sp"
         android:layout_alignBaseline="@+id/graph_year"
         android:layout_alignBottom="@+id/graph_year"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/graph_spinner"
+        android:layout_below="@+id/graph_year"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

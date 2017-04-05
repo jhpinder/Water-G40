@@ -76,6 +76,14 @@ public class SubmitQualityReportActivity extends AppCompatActivity implements On
             public void onClick(View v) {
                 editConPPM.setError(null);
                 editVirusPPM.setError(null);
+                if (!editConPPM.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+                    editConPPM.setError("Please enter a valid number");
+                    return;
+                }
+                if (!editVirusPPM.getText().toString().matches("^[-+]?\\d+(\\.\\d+)?$")) {
+                    editVirusPPM.setError("Please enter a valid number");
+                    return;
+                }
 
                 if (attemptSave()) {
                     System.out.println("Saved");

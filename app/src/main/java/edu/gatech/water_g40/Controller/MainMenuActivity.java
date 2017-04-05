@@ -98,7 +98,7 @@ public class MainMenuActivity extends AppCompatActivity {
             qReports = new ArrayList<QualityReport>();
             e.printStackTrace();
         }
-        System.out.println(qReports.size());
+        //System.out.println(qReports.size());
         //reports.add(new Report());
 
 
@@ -241,11 +241,21 @@ public class MainMenuActivity extends AppCompatActivity {
 
         if (current.getTitle() != null) {
             if (current.getTitle().equals(Account.Title.USER)) {
+                graphButton.setVisibility(View.GONE);
                 submitQualityReportButton.setVisibility(View.GONE);
                 swap.setVisibility(View.GONE);
+            } else if (current.getTitle().equals(Account.Title.MANAGER)) {
+                graphButton.setVisibility(View.VISIBLE);
+                submitQualityReportButton.setVisibility(View.VISIBLE);
+                swap.setVisibility(View.VISIBLE);
+            } else if (current.getTitle().equals(Account.Title.ADMINISTRATOR)) {
+                graphButton.setVisibility(View.VISIBLE);
+                submitQualityReportButton.setVisibility(View.VISIBLE);
+                swap.setVisibility(View.VISIBLE);
             } else {
                 submitQualityReportButton.setVisibility(View.VISIBLE);
                 swap.setVisibility(View.VISIBLE);
+                graphButton.setVisibility(View.GONE);
             }
         } else {
             submitQualityReportButton.setVisibility(View.GONE);
