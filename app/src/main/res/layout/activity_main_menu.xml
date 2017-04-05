@@ -37,22 +37,13 @@
         android:textSize="12sp" />
 
     <Button
-        android:text="Map"
-        android:layout_height="wrap_content"
-        android:id="@+id/main_menu_map"
-        android:layout_width="wrap_content"
-        android:textSize="12sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
         android:text="Log Out"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/back_button"
         android:textSize="12sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_width="150px" />
 
     <Button
         android:text="Submit Report"
@@ -71,6 +62,24 @@
         android:id="@+id/main_menu_swap"
         android:textSize="10sp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/main_menu_map" />
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Graph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/main_menu_listview"
+        android:layout_toStartOf="@+id/main_submit_qr"
+        android:id="@+id/main_menu_graph_button"
+        android:textSize="12sp" />
+
+    <Button
+        android:text="Map"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_menu_map"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/main_menu_graph_button"
+        android:layout_width="150px" />
 
 </RelativeLayout>
