@@ -22,6 +22,9 @@ public class Report implements Parcelable, Serializable {
     private Condition condition;
     private int reportNum;
 
+    /**
+     * Enum for water type
+     */
     public enum WaterType {
         BOTTLED("Bottled"),
         WELL("Well"),
@@ -36,8 +39,15 @@ public class Report implements Parcelable, Serializable {
             return name;
         }
         }
+
+    /**
+     * List for legal values of WaterTypes
+     */
     public static List<WaterType> legalTypes = Arrays.asList(WaterType.values());
 
+    /**
+     * Enum for water condition
+     */
     public enum Condition {
         WASTE("Waste"),
         TREATCLEAR("Treatable-Clear"),
@@ -55,14 +65,43 @@ public class Report implements Parcelable, Serializable {
         }
     }
 
+    /**
+     * List for legal values of Conditions
+     */
     public static List<Condition> legalConditions = Arrays.asList(Condition.values());
 
+    /**
+     * Default no-param constructor
+     */
     public Report() {
         this(new Date(), "User", 0, 0, WaterType.BOTTLED, Condition.POTABLE, 0);
     }
-    public Report(String user, WaterType w, Condition c, int reportNum) {
-        this(new Date(), user, 0, 0, w, c, reportNum);
+
+    /**
+     * 4 param constructor
+     *
+     * @param user the name of the submitting user
+     * @param waterType the water source's type
+     * @param condition the water source's condition
+     * @param reportNum the number of the report
+     *
+     */
+    public Report(String user, WaterType waterType, Condition condition, int reportNum) {
+        this(new Date(), user, 0, 0, waterType, condition, reportNum);
     }
+
+    /**
+     * 8 arg constructor, please only use this.
+     *
+     * @param date the date of the report
+     * @param username the name of the submitting user
+     * @param lat the latitude of the report's GPS location
+     * @param lon the longitude of the report's GPS location
+     * @param waterType the water source's type
+     * @param condition the water source's condition
+     * @param reportNum he number of the report
+     *
+     */
     public Report(Date date, String username, double lat, double lon, WaterType waterType,
                   Condition condition, int reportNum) {
         this.date = date;
@@ -74,10 +113,18 @@ public class Report implements Parcelable, Serializable {
         this.reportNum = reportNum;
     }
 
+    /**
+     * toString method for Report
+     * @return toString with username of who submitted it at the end
+     */
+    @Override
     public String toString() {
         return waterType.toString() + " water reported by " + username;
     }
 
+    /* **********************
+     * Getters and setters
+     */
     public String getUsername() {
         return username;
     }
@@ -120,18 +167,19 @@ public class Report implements Parcelable, Serializable {
     public int getReportNum() {
         return reportNum;
     }
-
     public int getYear() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY");
         return Integer.parseInt(dateFormat.format(date));
     }
-
     public int getMonth() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
         return Integer.parseInt(dateFormat.format(date));
     }
 
-
+    /**
+     * Parcelable requirement
+     * @param in Parcel to unpack
+     */
     private Report(Parcel in) {
         date = (Date) in.readSerializable();
         username = in.readString();
@@ -142,11 +190,20 @@ public class Report implements Parcelable, Serializable {
         reportNum = in.readInt();
     }
 
+    /**
+     * Method required for interface
+     * @return 0 default
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * Parcelable requirement
+     * @param dest the Parcel in which the object should be written.
+     * @param flags additional flag about how the object should be written
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeSerializable(date);
@@ -158,6 +215,9 @@ public class Report implements Parcelable, Serializable {
         dest.writeInt(reportNum);
     }
 
+    /*
+     * Initializes and packages the reports array into a parcel
+     */
     public static final Parcelable.Creator<Report> CREATOR
             = new Parcelable.Creator<Report>() {
         public Report createFromParcel(Parcel in) {

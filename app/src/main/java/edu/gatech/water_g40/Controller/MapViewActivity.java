@@ -36,6 +36,9 @@ public class MapViewActivity extends FragmentActivity implements GoogleMap.OnMar
     protected Account current;
     protected ArrayList<? extends Parcelable> reports;
 
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

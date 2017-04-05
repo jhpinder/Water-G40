@@ -63,10 +63,6 @@ public class Account implements Parcelable, Serializable {
     public Title getTitle() {return title; }
     public void setTitle(Title standing) { title = standing; }
 
-
-    /* **********************
-     * Getters and setters
-     */
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 

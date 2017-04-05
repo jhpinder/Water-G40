@@ -55,6 +55,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private int reportMode = 0;
 
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -38,6 +38,9 @@ public class ViewQualityReportActivity extends AppCompatActivity implements OnMa
     private String previous;
     private ArrayList reports;
 
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +100,9 @@ public class ViewQualityReportActivity extends AppCompatActivity implements OnMa
 
     }
 
+    /*
+        Initializes the map and readies the Google Map functionality
+     */
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         LatLng latLon = new LatLng(report.getLat(), report.getLon());

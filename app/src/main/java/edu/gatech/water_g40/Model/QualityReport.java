@@ -51,6 +51,16 @@ public class QualityReport implements Parcelable, Serializable{
 
     /**
      * 8 arg constructor, please only use this.
+     *
+     * @param date the date of the report
+     * @param reportNumber the index of the report
+     * @param name the report's name
+     * @param lat the latitude of the report's GPS location
+     * @param lon the longitude of the report's GPS location
+     * @param qCondition the quality condition of the water source
+     * @param virusPPM PPM value for the virus
+     * @param contaminantPPM PPM value for the contaminant
+     *
      */
     public QualityReport(Date date, int reportNumber, String name, double lat, double lon,
                          QCondition qCondition, double virusPPM, double contaminantPPM) {
@@ -64,15 +74,10 @@ public class QualityReport implements Parcelable, Serializable{
         this.contaminantPPM = contaminantPPM;
     }
 
-    /**
-     * toString method for QualityReport
-     * @return toString with username of who submitted it at the end
-     */
-    @Override
-    public String toString() {
-        return "Quality report submitted by " + name;
-    }
 
+    /* **********************
+     * Getters and setters
+     */
     public String getName() { return name; }
     public Date getDate() { return date; }
     public int getReportNumber() { return reportNumber; }
@@ -81,15 +86,22 @@ public class QualityReport implements Parcelable, Serializable{
     public QCondition getqCondition() { return qCondition; }
     public double getVirusPPM() { return virusPPM; }
     public double getContaminantPPM() { return contaminantPPM; }
-
     public int getYear() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY");
         return Integer.parseInt(dateFormat.format(date));
     }
-
     public int getMonth() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM");
         return Integer.parseInt(dateFormat.format(date));
+    }
+
+    /**
+     * toString method for QualityReport
+     * @return toString with username of who submitted it at the end
+     */
+    @Override
+    public String toString() {
+        return "Quality report submitted by " + name;
     }
 
     /**
@@ -108,7 +120,8 @@ public class QualityReport implements Parcelable, Serializable{
     }
 
     /**
-     * Required for interfaces
+     * Parcels the report and initializes the array of reports
+     * Method required for interface
      */
     public static final Creator<QualityReport> CREATOR = new Creator<QualityReport>() {
         @Override
@@ -123,7 +136,7 @@ public class QualityReport implements Parcelable, Serializable{
     };
 
     /**
-     * required for interfaces
+     * Method required for interface
      * @return 0 default
      */
     @Override

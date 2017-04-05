@@ -44,7 +44,9 @@ public class SubmitQualityReportActivity extends AppCompatActivity implements On
     private double lat = 0;
     private double lon = 0;
 
-
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +111,10 @@ public class SubmitQualityReportActivity extends AppCompatActivity implements On
     }
 
 
-
+    /*
+     *  Attempts to save the report the user wants to submit
+     *  @return if the save was successful or not
+     */
     public boolean attemptSave() {
 
         List<QualityReport> qReports = new ArrayList<QualityReport>();
@@ -170,6 +175,9 @@ public class SubmitQualityReportActivity extends AppCompatActivity implements On
 
     }
 
+    /*
+     * Initializes the map and readies the Google Map functionality
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
