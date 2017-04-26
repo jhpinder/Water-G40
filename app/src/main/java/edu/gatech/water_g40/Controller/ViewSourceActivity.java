@@ -36,7 +36,10 @@ public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyC
     private String previous;
     private ArrayList reports;
 
-    
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+    */
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_source);
@@ -92,6 +95,9 @@ public class ViewSourceActivity extends AppCompatActivity implements OnMapReadyC
 
     }
 
+    /*
+        Initializes the map and readies the Google Map functionality
+     */
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         LatLng latLon = new LatLng(report.getLat(), report.getLon());

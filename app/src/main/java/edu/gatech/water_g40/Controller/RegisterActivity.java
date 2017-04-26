@@ -46,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     boolean cancelClicked = false;
 
+    /*
+     * Standard activity method to initialize GUI elements and create the screen
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -199,6 +202,7 @@ public class RegisterActivity extends AppCompatActivity {
     * Checks if the username is valid
     *
     * @param username   the username entered into the text field
+    * @return if the username is valid
      */
     // NOTE that password and email validity have to be the same across Activities
     private boolean isUsernameValid(String username) { return username.length() > 2; }
@@ -206,6 +210,7 @@ public class RegisterActivity extends AppCompatActivity {
     * Checks if the password is valid
     *
     * @param password   the username entered into the text field
+    * @return if the password is valid
      */
     // NOTE that password and email validity have to be the same across Activities
     private boolean isPasswordValid(String password) { return password.length() > 2; }
