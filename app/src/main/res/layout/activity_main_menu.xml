@@ -65,15 +65,6 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Graph"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/main_menu_listview"
-        android:layout_toStartOf="@+id/main_submit_qr"
-        android:id="@+id/main_menu_graph_button"
-        android:textSize="12sp" />
-
-    <Button
         android:text="Map"
         android:layout_height="wrap_content"
         android:id="@+id/main_menu_map"
@@ -81,5 +72,14 @@
         android:layout_width="60sp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/back_button" />
+
+    <Button
+        android:text="Graph"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_menu_graph_button"
+        android:textSize="12sp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/edit_profile_button" />
 
 </RelativeLayout>

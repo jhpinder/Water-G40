@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Vikram Kumar (Archlefirth) on 2/22/2017.
  *
- * Service Provider - allows login via acting account data
+ * Service Provider - allows logins via acting account data
  *
  * We are passing this object in a bundle between intents, so we implement
  * the Parcelable interface.
@@ -25,6 +25,7 @@ public class Account implements Parcelable, Serializable {
     private String email_address;
     private String home_address;
     private Title title;
+    private boolean banned;
 
 
 
@@ -63,6 +64,14 @@ public class Account implements Parcelable, Serializable {
     public Title getTitle() {return title; }
     public void setTitle(Title standing) { title = standing; }
 
+    public boolean isBanned() { return banned; }
+    public void setBanned(boolean banned1) {
+        banned = banned1;
+    }
+
+    /* **********************
+     * Getters and setters
+     */
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
@@ -94,6 +103,9 @@ public class Account implements Parcelable, Serializable {
      */
     @Override
     public String toString() {
+        if (banned) {
+            return "Banned account: " + username + " " + password + " " + name + " " + email_address + " " + home_address + " " + title;
+        }
         return username + " " + password + " " + name + " " + email_address + " " + home_address + " " + title;
     }
 
@@ -110,6 +122,7 @@ public class Account implements Parcelable, Serializable {
         email_address = in.readString();
         home_address = in.readString();
         title = (Title) in.readSerializable();
+        banned = (boolean) in.readSerializable();
     }
 
     @Override
@@ -128,6 +141,7 @@ public class Account implements Parcelable, Serializable {
         dest.writeString(email_address);
         dest.writeString(home_address);
         dest.writeSerializable(title);
+        dest.writeSerializable(banned);
     }
 
     public static final Parcelable.Creator<Account> CREATOR
