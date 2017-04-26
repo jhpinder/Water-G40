@@ -78,7 +78,7 @@
                 android:id="@+id/group_logo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/Group-40-Logo" />
+                app:srcCompat="@drawable/logo" />
 
         </LinearLayout>
     </ScrollView>
