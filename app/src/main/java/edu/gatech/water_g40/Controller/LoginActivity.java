@@ -259,8 +259,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
             if (mAuthTask.checkValidCombo(mAuthTask.getmEmail(), mAuthTask.getmPassword())){
                 Account currentAccount = accountHashtable.get(mAuthTask.getmEmail());
-                loginPlayer.stop();
+                if (loginPlayer.isPlaying()) {
+                    loginPlayer.stop();
+                }
                 loginPlayer.start();
+                System.out.println("played");
                 Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) currentAccount);
                 LoginActivity.this.startActivity(myIntent);

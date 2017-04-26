@@ -137,7 +137,9 @@ public class MainMenuActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                logoutPlayer.stop();
+                if (logoutPlayer.isPlaying()) {
+                    logoutPlayer.stop();
+                }
                 logoutPlayer.start();
                 Intent myIntent = new Intent(MainMenuActivity.this, LoginActivity.class);
                 MainMenuActivity.this.startActivity(myIntent);
@@ -192,7 +194,9 @@ public class MainMenuActivity extends AppCompatActivity {
         swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                swapPlayer.stop();
+                if (swapPlayer.isPlaying()) {
+                    swapPlayer.stop();
+                }
                 swapPlayer.start();
                 if (reportMode == 0) {
                     reportMode = 1;
