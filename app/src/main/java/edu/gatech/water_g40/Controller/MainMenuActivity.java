@@ -36,6 +36,9 @@ import edu.gatech.water_g40.R;
  */
 public class MainMenuActivity extends AppCompatActivity {
 
+    MediaPlayer swapPlayer;
+    MediaPlayer logoutPlayer;
+
     private ListView listView;
     protected Account current;
 
@@ -65,6 +68,8 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
         current = (Account) intent.getParcelableExtra("account_logged_in");
+        swapPlayer = MediaPlayer.create(this, R.raw.swap);
+        logoutPlayer = MediaPlayer.create(MainMenuActivity.this, R.raw.logout);
         try {
             FileInputStream sourcesFIS = openFileInput("mySources");
             ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
@@ -132,6 +137,8 @@ public class MainMenuActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                logoutPlayer.stop();
+                logoutPlayer.start();
                 Intent myIntent = new Intent(MainMenuActivity.this, LoginActivity.class);
                 MainMenuActivity.this.startActivity(myIntent);
             }
@@ -185,9 +192,8 @@ public class MainMenuActivity extends AppCompatActivity {
         swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaPlayer player = MediaPlayer.create(MainMenuActivity.this, R.raw.swap);
-
-                player.start();
+                swapPlayer.stop();
+                swapPlayer.start();
                 if (reportMode == 0) {
                     reportMode = 1;
                     listView = (ListView) findViewById(R.id.main_menu_listview);

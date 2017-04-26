@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -55,6 +56,10 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, Serializable {
 
+    MediaPlayer loginPlayer;
+    MediaPlayer firstFailPlayer;
+    MediaPlayer lockoutPlayer;
+
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -94,6 +99,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+        loginPlayer = MediaPlayer.create(this, R.raw.login);
+        firstFailPlayer = MediaPlayer.create(this, R.raw.firstfail);
+        lockoutPlayer = MediaPlayer.create(this, R.raw.lockedout);
 
 
         try {
@@ -250,6 +259,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
             if (mAuthTask.checkValidCombo(mAuthTask.getmEmail(), mAuthTask.getmPassword())){
                 Account currentAccount = accountHashtable.get(mAuthTask.getmEmail());
+                loginPlayer.stop();
+                loginPlayer.start();
                 Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) currentAccount);
                 LoginActivity.this.startActivity(myIntent);
