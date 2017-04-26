@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private ImageView logo;
+    private ImageView logoView;
 
 
     /*
@@ -154,8 +154,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-        logo = (ImageView) findViewById(R.id.group_logo);
-        logo.setImageResource(R.drawable.logo);
+        logoView = (ImageView) findViewById(R.id.group_logo);
+        logoView.setImageResource(R.drawable.logo);
     }
 
     /*
