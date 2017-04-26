@@ -205,6 +205,13 @@ public class MainMenuActivity extends AppCompatActivity {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            if (swapPlayer.isPlaying()) {
+                                try {
+                                    Thread.sleep(500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                             Intent myIntent = new Intent(MainMenuActivity.this, ViewQualityReportActivity.class);
                             myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
                             myIntent.putExtra("account_logged_in", (Parcelable) current);
