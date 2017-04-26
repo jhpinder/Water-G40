@@ -31,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.FileInputStream;
@@ -77,6 +78,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private ImageView logo;
+
 
     /*
      * Standard activity method to initialize GUI elements and create the screen
@@ -142,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        logo = (ImageView) findViewById(R.id.group_logo);
     }
 
     /*
