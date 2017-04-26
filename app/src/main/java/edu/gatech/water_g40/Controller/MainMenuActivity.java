@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Parcelable;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
@@ -184,6 +185,9 @@ public class MainMenuActivity extends AppCompatActivity {
         swap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayer player = MediaPlayer.create(MainMenuActivity.this, R.raw.swap);
+
+                player.start();
                 if (reportMode == 0) {
                     reportMode = 1;
                     listView = (ListView) findViewById(R.id.main_menu_listview);
