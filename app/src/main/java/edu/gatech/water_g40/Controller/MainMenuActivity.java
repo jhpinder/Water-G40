@@ -38,6 +38,8 @@ public class MainMenuActivity extends AppCompatActivity {
 
     MediaPlayer swapPlayer;
     MediaPlayer logoutPlayer;
+    MediaPlayer mapPlayer;
+    MediaPlayer graphPlayer;
 
     private ListView listView;
     protected Account current;
@@ -68,8 +70,12 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
         Intent intent = getIntent();
         current = (Account) intent.getParcelableExtra("account_logged_in");
+
         swapPlayer = MediaPlayer.create(this, R.raw.swap);
         logoutPlayer = MediaPlayer.create(MainMenuActivity.this, R.raw.logout);
+        mapPlayer = MediaPlayer.create(this, R.raw.map);
+        graphPlayer = MediaPlayer.create(this, R.raw.graph);
+
         try {
             FileInputStream sourcesFIS = openFileInput("mySources");
             ObjectInputStream sourcesOIS = new ObjectInputStream(sourcesFIS);
@@ -138,8 +144,9 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (logoutPlayer.isPlaying()) {
-                    logoutPlayer.stop();
+                    logoutPlayer.pause();
                 }
+                logoutPlayer.seekTo(0);
                 logoutPlayer.start();
                 Intent myIntent = new Intent(MainMenuActivity.this, LoginActivity.class);
                 MainMenuActivity.this.startActivity(myIntent);
@@ -150,6 +157,11 @@ public class MainMenuActivity extends AppCompatActivity {
         graphButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (graphPlayer.isPlaying()) {
+                    graphPlayer.pause();
+                    graphPlayer.seekTo(0);
+                }
+                graphPlayer.start();
                 Intent myIntent = new Intent(MainMenuActivity.this, HistoryGraphActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) current);
                 MainMenuActivity.this.startActivity(myIntent);
@@ -195,8 +207,9 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (swapPlayer.isPlaying()) {
-                    swapPlayer.stop();
+                    swapPlayer.pause();
                 }
+                swapPlayer.seekTo(0);
                 swapPlayer.start();
                 if (reportMode == 0) {
                     reportMode = 1;
@@ -205,13 +218,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            if (swapPlayer.isPlaying()) {
-                                try {
-                                    Thread.sleep(500);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
                             Intent myIntent = new Intent(MainMenuActivity.this, ViewQualityReportActivity.class);
                             myIntent.putExtra("current_report", (Parcelable) listView.getItemAtPosition(position));
                             myIntent.putExtra("account_logged_in", (Parcelable) current);
@@ -241,6 +247,11 @@ public class MainMenuActivity extends AppCompatActivity {
         mapViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mapPlayer.isPlaying()) {
+                    mapPlayer.pause();
+                }
+                mapPlayer.seekTo(0);
+                mapPlayer.start();
                 Intent myIntent = new Intent(MainMenuActivity.this, MapViewActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) current);
                 if (reportMode == 0) {

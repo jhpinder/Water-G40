@@ -8,6 +8,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +54,8 @@ import edu.gatech.water_g40.R;
 
 public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private MediaPlayer addPlayer;
+
     private Spinner typeSpinner;
     private Spinner conditionSpinner;
     private EditText editLat;
@@ -79,6 +82,7 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
         editLat = (EditText) findViewById(R.id.lat_text);
         editLon = (EditText) findViewById(R.id.lon_text);
 
+        addPlayer = MediaPlayer.create(this,R.raw.add);
 
         ArrayAdapter<Report.WaterType> waterTypeArrayAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, Report.legalTypes);
@@ -124,6 +128,11 @@ public class AddSourceActivity extends AppCompatActivity implements OnMapReadyCa
                 } else {
                     System.out.println("Did not save");
                 }
+                if (addPlayer.isPlaying()) {
+                    addPlayer.pause();
+                }
+                addPlayer.seekTo(0);
+                addPlayer.start();
                 Intent myIntent = new Intent(AddSourceActivity.this, MainMenuActivity.class);
                 myIntent.putExtra("account_logged_in", (Parcelable) current);
                 AddSourceActivity.this.startActivity(myIntent);

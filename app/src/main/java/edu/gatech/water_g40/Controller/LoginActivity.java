@@ -275,8 +275,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             });
                 } else {
                     if (loginPlayer.isPlaying()) {
-                        loginPlayer.stop();
+                        loginPlayer.pause();
                     }
+                    loginPlayer.seekTo(0);
                     loginPlayer.start();
                     System.out.println("played");
                     Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
@@ -284,6 +285,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     LoginActivity.this.startActivity(myIntent);
                 }
             } else {
+                if (lockoutPlayer.isPlaying()) {
+                    lockoutPlayer.pause();
+                }
+                lockoutPlayer.seekTo(0);
+                lockoutPlayer.start();
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
                 dlgAlert.setMessage("Incorrect password or username");
                 dlgAlert.setTitle("Error");

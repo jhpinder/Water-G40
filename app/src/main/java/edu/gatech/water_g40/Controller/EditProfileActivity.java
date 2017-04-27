@@ -96,6 +96,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 cancelClicked = true;
                 Intent myIntent = new Intent(EditProfileActivity.this, MainMenuActivity.class);
+                myIntent.putExtra("account_logged_in", (Parcelable) editAccount);
                 EditProfileActivity.this.startActivity(myIntent);
             }
         });
