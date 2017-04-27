@@ -77,7 +77,7 @@
             <ImageView
                 android:id="@+id/group_logo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="224dp"
                 android:src="@drawable/logo" />
 
         </LinearLayout>
