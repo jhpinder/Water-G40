@@ -258,7 +258,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             if (mAuthTask.checkValidCombo(mAuthTask.getmEmail(), mAuthTask.getmPassword())){
-                Account currentAccount = accountHashtable.get(mAuthTask.getmEmail());
+                Account currentAccount = accountHashtable.get(email);
+                if (currentAccount.isBanned()) {
+                    AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+                    dlgAlert.setMessage("Account is banned! Contact admin for further details");
+                    dlgAlert.setTitle("Error");
+                    dlgAlert.setPositiveButton("OK", null);
+                    dlgAlert.setCancelable(true);
+                    dlgAlert.create().show();
+
+                    dlgAlert.setPositiveButton("Ok",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent myIntent2 = new Intent(LoginActivity.this, LoginActivity.class);
+                                    LoginActivity.this.startActivity(myIntent2);
+                                }
+                            });
+                }
                 if (loginPlayer.isPlaying()) {
                     loginPlayer.stop();
                 }
@@ -269,7 +285,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-
+                Account currentAccount = accountHashtable.get("jhpinder");
+                currentAccount.setTries(currentAccount.getTries() + 1);
+                if (currentAccount.getTries() == 3) {
+                    currentAccount.setBanned(true);
+                    currentAccount.setTries(0);
+                }
                 dlgAlert.setMessage("Incorrect password or username");
                 dlgAlert.setTitle("Error");
                 dlgAlert.setPositiveButton("OK", null);
