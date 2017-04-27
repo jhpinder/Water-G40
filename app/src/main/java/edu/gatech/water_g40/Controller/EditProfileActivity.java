@@ -2,6 +2,7 @@ package edu.gatech.water_g40.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -44,6 +46,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private Spinner titleSpinner;
     private EditText banField;
     private ArrayList<Account> users;
+    private ImageView ProfileView1;
+    private ImageView ProfileView2;
 
     boolean cancelClicked = false;
 
@@ -77,6 +81,24 @@ public class EditProfileActivity extends AppCompatActivity {
         homeField = (EditText) findViewById(R.id.home_text);
         titleSpinner = (Spinner) findViewById(R.id.title_spinner);
         banField = (EditText) findViewById(R.id.accountToBan);
+        ProfileView1 = (ImageView) findViewById(R.id.profile_deer);
+        ProfileView1.setImageResource(R.drawable.logo);
+        ProfileView1.setClickable(true);
+        ProfileView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editAccount.setProfilePic("deer");
+            }
+        });
+        ProfileView2 = (ImageView) findViewById(R.id.profile_uni);
+        ProfileView2.setImageResource(R.drawable.logo);
+        ProfileView2.setClickable(true);
+        ProfileView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editAccount.setProfilePic("unicorn");
+            }
+        });
 
         /*
          * Create a dummy profile to grab the 'legalTitles' enum array

@@ -24,7 +24,9 @@ public class Account implements Parcelable, Serializable {
     private String name;
     private String email_address;
     private String home_address;
+    private String user_profile;
     private Title title;
+    private String profilePic;
     private boolean banned;
 
 
@@ -69,14 +71,14 @@ public class Account implements Parcelable, Serializable {
         banned = banned1;
     }
 
-    /* **********************
-     * Getters and setters
-     */
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
     public String getPassword() {return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getProfilePic() { return profilePic; }
+    public void setProfilePic(String profilePic) { this.profilePic = profilePic; }
 
 
     /**
@@ -122,6 +124,7 @@ public class Account implements Parcelable, Serializable {
         name = in.readString();
         email_address = in.readString();
         home_address = in.readString();
+        user_profile = in.readString();
         title = (Title) in.readSerializable();
         banned = (boolean) in.readSerializable();
     }
@@ -141,6 +144,7 @@ public class Account implements Parcelable, Serializable {
         dest.writeString(name);
         dest.writeString(email_address);
         dest.writeString(home_address);
+        dest.writeString(user_profile);
         dest.writeSerializable(title);
         dest.writeSerializable(banned);
     }
