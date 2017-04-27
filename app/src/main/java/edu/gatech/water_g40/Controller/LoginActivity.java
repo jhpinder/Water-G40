@@ -59,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     MediaPlayer loginPlayer;
     MediaPlayer firstFailPlayer;
     MediaPlayer lockoutPlayer;
+    MediaPlayer musicPlayer;
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -102,6 +103,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         loginPlayer = MediaPlayer.create(this, R.raw.login);
         firstFailPlayer = MediaPlayer.create(this, R.raw.firstfail);
         lockoutPlayer = MediaPlayer.create(this, R.raw.lockedout);
+        musicPlayer = MediaPlayer.create(this, R.raw.numberOne);
+        musicPlayer.start();
+        musicPlayer.setLooping(true);
 
 
         try {
