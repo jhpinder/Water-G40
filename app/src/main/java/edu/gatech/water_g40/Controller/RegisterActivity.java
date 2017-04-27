@@ -2,6 +2,7 @@ package edu.gatech.water_g40.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -43,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passEditField;
     private EditText passVerifEditField;
 
+    MediaPlayer savePlayer;
 
     boolean cancelClicked = false;
 
@@ -54,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        savePlayer = MediaPlayer.create(this, R.raw.save);
 
         // The Text Fields containing the new user's account data
         userEditField = (EditText) findViewById(R.id.username_text);
@@ -186,6 +189,11 @@ public class RegisterActivity extends AppCompatActivity {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
+                if (savePlayer.isPlaying()) {
+                    savePlayer.pause();
+                }
+                savePlayer.seekTo(0);
+                savePlayer.start();
                 // The user will now be returned to the login screen so they can login with their new account
                 Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 RegisterActivity.this.startActivity(myIntent);
