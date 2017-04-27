@@ -26,7 +26,6 @@ public class Account implements Parcelable, Serializable {
     private String home_address;
     private Title title;
     private boolean banned;
-    private int tries;
 
 
 
@@ -69,8 +68,6 @@ public class Account implements Parcelable, Serializable {
     public void setBanned(boolean banned1) {
         banned = banned1;
     }
-    public int getTries() { return tries; }
-    public void setTries(int tries1) { tries = tries1; }
 
     /* **********************
      * Getters and setters
@@ -90,7 +87,6 @@ public class Account implements Parcelable, Serializable {
     public Account(String username, String password) {
         this.username = username;
         this.password = password;
-        tries = 0;
     }
 
     /**
@@ -112,6 +108,7 @@ public class Account implements Parcelable, Serializable {
         }
         return username + " " + password + " " + name + " " + email_address + " " + home_address + " " + title;
     }
+
 
 
     /* *********************************

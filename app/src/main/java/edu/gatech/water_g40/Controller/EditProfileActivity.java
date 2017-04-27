@@ -42,6 +42,8 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText emailField;
     private EditText homeField;
     private Spinner titleSpinner;
+    private EditText banField;
+    private ArrayList<Account> users;
 
     boolean cancelClicked = false;
 
@@ -56,6 +58,17 @@ public class EditProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         editAccount = (Account) intent.getParcelableExtra("account_logged_in");
 
+        try {
+            FileInputStream usersFIS = openFileInput("myUsers");
+            ObjectInputStream usersOIS = new ObjectInputStream(usersFIS);
+            users = (ArrayList<Account>) usersOIS.readObject();
+        } catch (Exception e) {
+            users = new ArrayList<Account>();
+            e.printStackTrace();
+        }
+
+
+
         /**
          * Grab the dialog widgets so we can get info for later
          */
@@ -63,6 +76,7 @@ public class EditProfileActivity extends AppCompatActivity {
         emailField = (EditText) findViewById(R.id.email_text);
         homeField = (EditText) findViewById(R.id.home_text);
         titleSpinner = (Spinner) findViewById(R.id.title_spinner);
+        banField = (EditText) findViewById(R.id.accountToBan);
 
         /*
          * Create a dummy profile to grab the 'legalTitles' enum array
@@ -74,6 +88,7 @@ public class EditProfileActivity extends AppCompatActivity {
         ArrayAdapter<Account.Title> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Account.legalTitles);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         titleSpinner.setAdapter(adapter);
+
 
         final Button cancelButton = (Button) findViewById(R.id.cancel_button_profile);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +107,40 @@ public class EditProfileActivity extends AppCompatActivity {
                 attemptSaveChanges();
             }
         });
+
+        final Button banButton = (Button) findViewById(R.id.banAccount);
+        banButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Account a : users) {
+                    if (a.getUsername().equals(banField.getText().toString())) {
+                        a.setBanned(true);
+                    }
+                }
+            }
+        });
+
+        final Button unBanButton = (Button) findViewById(R.id.unBanAccount);
+        unBanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (Account a : users) {
+                    if (a.getUsername().equals(banField.getText().toString())) {
+                        a.setBanned(false);
+                    }
+                }
+            }
+        });
+
+        if (editAccount.getTitle().equals(Account.Title.ADMINISTRATOR)) {
+            banButton.setVisibility(View.VISIBLE);
+            unBanButton.setVisibility(View.VISIBLE);
+            banField.setVisibility(View.VISIBLE);
+        } else {
+            banButton.setVisibility(View.GONE);
+            unBanButton.setVisibility(View.GONE);
+            banField.setVisibility(View.GONE);
+        }
 
     }
 

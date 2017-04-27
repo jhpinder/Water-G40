@@ -68,8 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /*
      * A hash table to store and keep track of Accounts based on names
      */
-    public static Hashtable<String, Account> accountHashtable
-            = new Hashtable<>(10);
+    public static Hashtable<String, Account> accountHashtable = new Hashtable<>(10);
 
     public ArrayList<Account> users;
 
@@ -258,7 +257,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
             if (mAuthTask.checkValidCombo(mAuthTask.getmEmail(), mAuthTask.getmPassword())){
-                Account currentAccount = accountHashtable.get(email);
+                Account currentAccount = accountHashtable.get(mAuthTask.getmEmail());
                 if (currentAccount.isBanned()) {
                     AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
                     dlgAlert.setMessage("Account is banned! Contact admin for further details");
@@ -274,23 +273,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     LoginActivity.this.startActivity(myIntent2);
                                 }
                             });
+                } else {
+                    if (loginPlayer.isPlaying()) {
+                        loginPlayer.stop();
+                    }
+                    loginPlayer.start();
+                    System.out.println("played");
+                    Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
+                    myIntent.putExtra("account_logged_in", (Parcelable) currentAccount);
+                    LoginActivity.this.startActivity(myIntent);
                 }
-                if (loginPlayer.isPlaying()) {
-                    loginPlayer.stop();
-                }
-                loginPlayer.start();
-                System.out.println("played");
-                Intent myIntent = new Intent(LoginActivity.this, MainMenuActivity.class);
-                myIntent.putExtra("account_logged_in", (Parcelable) currentAccount);
-                LoginActivity.this.startActivity(myIntent);
             } else {
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-                Account currentAccount = accountHashtable.get("jhpinder");
-                currentAccount.setTries(currentAccount.getTries() + 1);
-                if (currentAccount.getTries() == 3) {
-                    currentAccount.setBanned(true);
-                    currentAccount.setTries(0);
-                }
                 dlgAlert.setMessage("Incorrect password or username");
                 dlgAlert.setTitle("Error");
                 dlgAlert.setPositiveButton("OK", null);

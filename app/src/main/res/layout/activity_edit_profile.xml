@@ -77,4 +77,29 @@
         android:layout_below="@+id/home_text"
         android:layout_alignParentStart="true"
         android:layout_marginTop="22dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/accountToBan" />
+
+    <Button
+        android:text="Ban Account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/banAccount"
+        android:layout_below="@+id/accountToBan"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Unban Account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/accountToBan"
+        android:layout_toEndOf="@+id/banAccount"
+        android:id="@+id/unBanAccount" />
 </RelativeLayout>
